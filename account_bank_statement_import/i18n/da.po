@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_bank_statement_import
+# 	* account_bank_statement_import
 #
 msgid ""
 msgstr ""
@@ -8,12 +8,13 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 14:30+0000\n"
 "PO-Revision-Date: 2016-02-05 14:30+0000\n"
-"Last-Translator: <>\n"
-"Language-Team: \n"
+"Last-Translator: Automatically generated\n"
+"Language-Team: none\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: da\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:393
@@ -34,7 +35,8 @@ msgstr ""
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
-msgid "2. Make sure you have installed the right module to support the file format."
+msgid ""
+"2. Make sure you have installed the right module to support the file format."
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -49,7 +51,10 @@ msgstr ""
 
 #. module: account_bank_statement_import
 #: help:account.bank.statement.import,journal_id:0
-msgid "Accounting journal related to the bank statement you're importing. It has be be manually chosen for statement formats which doesn't allow automatic journal detection (QIF for example)."
+msgid ""
+"Accounting journal related to the bank statement you're importing. It has be"
+" be manually chosen for statement formats which doesn't allow automatic "
+"journal detection (QIF for example)."
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -61,7 +66,7 @@ msgstr ""
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_res_partner_bank
 msgid "Bank Accounts"
-msgstr ""
+msgstr "Bankkonti"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,data_file:0
@@ -71,7 +76,7 @@ msgstr ""
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_account_bank_statement_line
 msgid "Bank Statement Line"
-msgstr ""
+msgstr "Bank kontoudtogslinie"
 
 #. module: account_bank_statement_import
 #: view:account.config.settings:account_bank_statement_import.view_account_config_settings
@@ -93,29 +98,30 @@ msgstr ""
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "Cancel"
-msgstr ""
+msgstr "Annuller"
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:194
 #, python-format
-msgid "Could not make sense of the given file.\n"
+msgid ""
+"Could not make sense of the given file.\n"
 "Did you install the module to support this type of file?"
 msgstr ""
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,create_uid:0
 msgid "Created by"
-msgstr ""
+msgstr "Oprettet af"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,create_date:0
 msgid "Created on"
-msgstr ""
+msgstr "Oprettet den"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,display_name:0
 msgid "Display Name"
-msgstr ""
+msgstr "Navn"
 
 #. module: account_bank_statement_import
 #: field:account.config.settings,module_base_bank_account_number_unique:0
@@ -125,11 +131,13 @@ msgstr ""
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,filename:0
 msgid "Filename"
-msgstr ""
+msgstr "Filename"
 
 #. module: account_bank_statement_import
 #: help:account.bank.statement.import,data_file:0
-msgid "Get you bank statements in electronic format from your bank and select them here."
+msgid ""
+"Get you bank statements in electronic format from your bank and select them "
+"here."
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -145,13 +153,13 @@ msgstr ""
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,id:0
 msgid "ID"
-msgstr ""
+msgstr "Id"
 
 #. module: account_bank_statement_import
 #: model:ir.actions.act_window,name:account_bank_statement_import.action_account_bank_statement_import
 #: model:ir.ui.menu,name:account_bank_statement_import.menu_account_bank_statement_import
 msgid "Import"
-msgstr ""
+msgstr "Importer"
 
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_account_bank_statement_import
@@ -171,22 +179,22 @@ msgstr ""
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,journal_id:0
 msgid "Journal"
-msgstr ""
+msgstr "Journal"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,__last_update:0
 msgid "Last Modified on"
-msgstr ""
+msgstr "Senest opdateret den"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,write_uid:0
 msgid "Last Updated by"
-msgstr ""
+msgstr "Sidst opdateret af"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,write_date:0
 msgid "Last Updated on"
-msgstr ""
+msgstr "Sidst opdateret den"
 
 #. module: account_bank_statement_import
 #: field:res.partner.bank,sanitized_acc_number:0
@@ -220,13 +228,16 @@ msgstr ""
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:284
 #, python-format
-msgid "The currency of the bank statement is not the same as the company currency !"
+msgid ""
+"The currency of the bank statement is not the same as the company currency !"
 msgstr ""
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:270
 #, python-format
-msgid "The currency of the bank statement is not the same as the currency of the journal !"
+msgid ""
+"The currency of the bank statement is not the same as the currency of the "
+"journal !"
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -255,5 +266,4 @@ msgstr ""
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "or"
-msgstr ""
-
+msgstr "eller"
