@@ -7,7 +7,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2016-02-05 14:30+0000\n"
-"PO-Revision-Date: 2016-02-05 14:30+0000\n"
+"PO-Revision-Date: 2016-02-05 15:41+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "MIME-Version: 1.0\n"
@@ -15,53 +15,59 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 1.8.7\n"
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:393
 #, python-format
 msgid "%d transactions had already been imported and were ignored."
-msgstr ""
+msgstr "%d transaktioner var allerede blevet importeret og blev ignoreret."
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:396
 #, python-format
 msgid "1 transaction had already been imported and was ignored."
-msgstr ""
+msgstr "1 transaktion var allerede blevet importeret og blev ignoreret."
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "1. Download your bank statements from your bank website."
-msgstr ""
+msgstr "1. Download dine kontoudtog fra din banks hjemmeside."
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid ""
 "2. Make sure you have installed the right module to support the file format."
 msgstr ""
+"2. Filen skal være en CSV fil med ; som skilletegn og indeholde følgende "
+"felter: Dato, Tekst, Beløb, Saldo"
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "3. Select the file and click 'Import'."
-msgstr ""
+msgstr "3. Vælg filen og klik på \"Import\"."
 
 #. module: account_bank_statement_import
 #: sql_constraint:account.bank.statement.line:0
 msgid "A bank account transactions can be imported only once !"
-msgstr ""
+msgstr "En bankkonto transaktion kan kun importeres én gang!"
 
 #. module: account_bank_statement_import
 #: help:account.bank.statement.import,journal_id:0
 msgid ""
-"Accounting journal related to the bank statement you're importing. It has be"
-" be manually chosen for statement formats which doesn't allow automatic "
+"Accounting journal related to the bank statement you're importing. It has "
+"be be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
+"Regnskabsjournal relateret til det kontoudtog, du importerer. Det skal "
+"manuelt vælges for formater som ikke tillader automatisk journal valg (CSV "
+"for eksempel)."
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:399
 #, python-format
 msgid "Already imported items"
-msgstr ""
+msgstr "Allerede importeret"
 
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_res_partner_bank
@@ -71,7 +77,7 @@ msgstr "Bankkonti"
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,data_file:0
 msgid "Bank Statement File"
-msgstr ""
+msgstr "Bank kontoudtogsfil"
 
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_account_bank_statement_line
@@ -81,19 +87,19 @@ msgstr "Bank kontoudtogslinie"
 #. module: account_bank_statement_import
 #: view:account.config.settings:account_bank_statement_import.view_account_config_settings
 msgid "Bank statement import"
-msgstr ""
+msgstr "Bank kontoudtog import"
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:154
 #, python-format
 msgid "Can not determine journal for import."
-msgstr ""
+msgstr "Kan ikke bestemme journal for import."
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:148
 #, python-format
 msgid "Can not find the account number %s."
-msgstr ""
+msgstr "Kan ikke finde kontonummer %s."
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
@@ -106,7 +112,7 @@ msgstr "Annuller"
 msgid ""
 "Could not make sense of the given file.\n"
 "Did you install the module to support this type of file?"
-msgstr ""
+msgstr "Kan ikke forstå den valgte fil."
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,create_uid:0
@@ -126,7 +132,7 @@ msgstr "Navn"
 #. module: account_bank_statement_import
 #: field:account.config.settings,module_base_bank_account_number_unique:0
 msgid "Enforce unique account numbers on bank accounts"
-msgstr ""
+msgstr "Kræv unikke kontonumr epå bank konti"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,filename:0
@@ -138,17 +144,17 @@ msgstr "Filename"
 msgid ""
 "Get you bank statements in electronic format from your bank and select them "
 "here."
-msgstr ""
+msgstr "Hent dine bank kontoudtog i elektronisk format og vælg dem her."
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,hide_journal_field:0
 msgid "Hide the journal field in the view"
-msgstr ""
+msgstr "Skjul journalfeltet"
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "How to import your bank statement :"
-msgstr ""
+msgstr "Sådan indlæses dine bank kontoudtog"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,id:0
@@ -164,17 +170,17 @@ msgstr "Importer"
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_account_bank_statement_import
 msgid "Import Bank Statement"
-msgstr ""
+msgstr "Importer bank kontoudtog"
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "Import Bank Statements"
-msgstr ""
+msgstr "Importer bank kontoudtog"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.line,unique_import_id:0
 msgid "Import ID"
-msgstr ""
+msgstr "Import ID"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,journal_id:0
@@ -244,19 +250,19 @@ msgstr ""
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:204
 #, python-format
 msgid "This file doesn't contain any statement."
-msgstr ""
+msgstr "Filen indeholder ingen transaktioner."
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:209
 #, python-format
 msgid "This file doesn't contain any transaction."
-msgstr ""
+msgstr "Filen indeholder ingen transaktioner."
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:132
 #, python-format
 msgid "You have already imported that file."
-msgstr ""
+msgstr "Du har allerede indlæst denne fil."
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
