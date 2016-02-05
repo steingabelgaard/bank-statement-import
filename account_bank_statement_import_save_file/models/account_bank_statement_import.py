@@ -41,11 +41,12 @@ class AccountBankStatementImport(models.TransientModel):
     def _create_import_file_attachment_data(self, data_file, statement_id,
                                             notifications):
         return {
-            'name': '<unknown>',
+            'name': self.filename,
             'res_model': 'account.bank.statement',
             'res_id': statement_id,
             'type': 'binary',
             'datas': base64.b64encode(data_file),
+            'datas_fname': self.filename,
             'description': '\n'.join(
                 '%(type)s: %(message)s' % notification
                 for notification in notifications) or False,

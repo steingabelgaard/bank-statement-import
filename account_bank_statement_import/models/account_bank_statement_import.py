@@ -53,6 +53,7 @@ class AccountBankStatementImport(models.TransientModel):
         'Bank Statement File', required=True,
         help='Get you bank statements in electronic format from your bank '
         'and select them here.')
+    filename = fields.Char('Filename')
 
     @api.multi
     def import_file(self):
