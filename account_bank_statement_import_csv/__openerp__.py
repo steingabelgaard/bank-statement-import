@@ -26,6 +26,22 @@
     'author': 'Stein & Gabelgaard',
     'website': 'http://www.steingabelgaard.dk',
     'summary': 'Import CSV files as Bank Statements in Odoo',
+    'description': """
+Danish CSV Bank Statement import
+
+Required fields:
+ - Dato
+ - Tekst
+ - Beløb
+ - Saldo
+ 
+Optional fields (goes into the ref field)
+ - Kommentar
+ - Kategori
+ - Underkategori
+ - Egen bilagsreference
+ """
+
     'depends': ['account_bank_statement_import'],
     'external_dependencies': {'python': ['unicodecsv']},
     'data': [],
