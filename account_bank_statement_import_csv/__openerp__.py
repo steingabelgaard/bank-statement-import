@@ -40,7 +40,7 @@ Optional fields (goes into the ref field)
  - Kategori
  - Underkategori
  - Egen bilagsreference
- """
+ """,
 
     'depends': ['account_bank_statement_import'],
     'external_dependencies': {'python': ['unicodecsv']},
