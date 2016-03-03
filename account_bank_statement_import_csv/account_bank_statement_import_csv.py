@@ -48,10 +48,14 @@ class AccountBankStatementImport(models.TransientModel):
         return 'latin1'
 
     @api.model
-    def _prepare_csv_date_format(self):
+    def _prepare_csv_date_format(self, datestr):
         '''This method is designed to be inherited'''
-        return '%d.%m.%Y'
-
+        if '.' in datestr:
+            return '%d.%m.%Y'
+        elif '-' in datestr:
+            return '%d-%m-%Y'
+        
+        
     @api.model
     def _csv_convert_amount(self, amount_str):
         '''This method is designed to be inherited'''
@@ -86,10 +90,12 @@ class AccountBankStatementImport(models.TransientModel):
         company_currency_name = self.env.user.company_id.currency_id.name
         unique_hash = hashlib.sha1(bytearray(self.filename, 'utf-8') + data_file)
         # To confirm : is the encoding always latin1 ?
-        date_format = self._prepare_csv_date_format()
+        date_format = False
         for line in unicodecsv.DictReader(
                 f, encoding=self._prepare_csv_encoding(), delimiter=';'):
             
+            if not date_format:
+                date_format = self._prepare_csv_date_format(line['Dato'])
             i += 1
             
             if i == 1:
