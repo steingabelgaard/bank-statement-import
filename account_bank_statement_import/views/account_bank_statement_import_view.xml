@@ -14,7 +14,7 @@
                     <label for="journal_id"/>
                     <field name="journal_id"
                         domain="[('type', '=', 'bank')]"
-                        attrs="{'invisible': [('hide_journal_field', '=', True)]}"
+                        attrs="{'invisible': [('hide_journal_field', '=', True)], 'required': [('hide_journal_field', '=', False)]}"
                         context="{'default_type':'bank'}"/>
                     <br/><br/><b> How to import your bank statement :</b>
                     <br/><label string= "1. Download your bank statements from your bank website."/>
