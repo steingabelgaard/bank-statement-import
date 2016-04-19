@@ -28,6 +28,8 @@ import re
 from cStringIO import StringIO
 import hashlib
 
+import openerp.addons.decimal_precision as dp
+
 _logger = logging.getLogger(__name__)
 
 
@@ -121,6 +123,7 @@ class AccountBankStatementImport(models.TransientModel):
                 'name': line['Tekst'],
                 'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'], line['Tekst'], line[u'Beløb'], line[u'Saldo']),
                 'amount': self._csv_convert_amount(line[u'Beløb']),
+                'line_balance': self._csv_convert_amount(line[u'Saldo']),
                 'bank_account_id': False,
                 'ref' : self._csv_get_note(line),
                 }
@@ -146,3 +149,20 @@ class AccountBankStatementImport(models.TransientModel):
             'transactions': transactions,
         }
         return None, None, [vals_bank_statement]
+
+    @api.model
+    def _create_bank_statement(self, stmt_vals):
+        statement_id, notifications = super(AccountBankStatementImport, self)._create_bank_statement(stmt_vals)
+        bs = self.env['account.bank.statement'].browse(statement_id)
+        bsl = bs.line_ids.sorted(key=lambda r: r.date)[0]
+        bs.balance_start = bsl.line_balance - bsl.amount
+        return statement_id, notifications
+    
+class AccountBankStatementLine(models.Model):
+    """Extend model account.bank.statement.line."""
+    # pylint: disable=too-many-public-methods
+    _inherit = "account.bank.statement.line"
+    
+    line_balance = fields.Float(digits_compute=dp.get_precision('Account'))
+    
+
