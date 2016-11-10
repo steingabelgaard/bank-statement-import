@@ -96,8 +96,7 @@ class AccountBankStatementImport(models.TransientModel):
         for line in unicodecsv.DictReader(
                 f, encoding=self._prepare_csv_encoding(), delimiter=';'):
             
-            if not date_format:
-                date_format = self._prepare_csv_date_format(line['Dato'])
+            
             i += 1
             
             if i == 1:
@@ -105,6 +104,8 @@ class AccountBankStatementImport(models.TransientModel):
                 _logger.info("KEYS: %s", line.keys())
                 if not set(['Dato', 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
                     return super(AccountBankStatementImport, self)._parse_file(data_file)
+                if not date_format:
+                    date_format = self._prepare_csv_date_format(line['Dato'])
                 
                 start_date_str = line['Dato'] 
                 date_dt = datetime.strptime(
