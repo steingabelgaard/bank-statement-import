@@ -22,7 +22,7 @@
 import logging
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning
+from openerp.exceptions import Warning as UserError
 import unicodecsv
 import re
 from cStringIO import StringIO
@@ -118,21 +118,25 @@ class AccountBankStatementImport(models.TransientModel):
                 d += 1
             else:
                 d = 1
-            vals_line = {
-                'date': datetime.strptime(line[
-                                               'Dato'], date_format),
-                'name': line['Tekst'],
-                'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'], line['Tekst'], line[u'Beløb'], line[u'Saldo']),
-                'amount': self._csv_convert_amount(line[u'Beløb']),
-                'line_balance': self._csv_convert_amount(line[u'Saldo']),
-                'bank_account_id': False,
-                'ref' : self._csv_get_note(line),
-                }
-            end_date_str = line['Dato']
-            end_balance = self._csv_convert_amount(line[u'Saldo'])
-            end_amount = self._csv_convert_amount(line[u'Beløb'])
-            _logger.debug("vals_line = %s" % vals_line)
-            transactions.append(vals_line)
+            _logger.info('Procsessing line: %d', i)
+            try:
+                vals_line = {
+                    'date': datetime.strptime(line[
+                                                   'Dato'], date_format),
+                    'name': line['Tekst'],
+                    'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'], line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                    'amount': self._csv_convert_amount(line[u'Beløb']),
+                    'line_balance': self._csv_convert_amount(line[u'Saldo']),
+                    'bank_account_id': False,
+                    'ref' : self._csv_get_note(line),
+                    }
+                end_date_str = line['Dato']
+                end_balance = self._csv_convert_amount(line[u'Saldo'])
+                end_amount = self._csv_convert_amount(line[u'Beløb'])
+                _logger.debug("vals_line = %s" % vals_line)
+                transactions.append(vals_line)
+            except:
+                raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
             
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
             #swap start / end
