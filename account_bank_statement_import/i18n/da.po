@@ -112,7 +112,17 @@ msgstr "Annuller"
 msgid ""
 "Could not make sense of the given file.\n"
 "Did you install the module to support this type of file?"
-msgstr "Kan ikke forstå den valgte fil."
+msgstr "Kan ikke forstå den valgte fil.\n"
+"Formatet er en semikolon separeret fil med følgende felter (angivet i første linie):\n"
+"Dato\n"
+"Tekst\n"
+"Saldo\n"
+"Beløb\n\n"
+"Følgende felter, hvis de er angivet, vil blive lagt ind som reference:\n"
+"Kommentar\n"
+"Kategori\n"
+"Underkategori\n"
+"Egen bilagsreference"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,create_uid:0
