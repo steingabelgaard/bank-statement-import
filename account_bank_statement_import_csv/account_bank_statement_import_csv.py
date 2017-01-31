@@ -159,8 +159,9 @@ class AccountBankStatementImport(models.TransientModel):
     def _create_bank_statement(self, stmt_vals):
         statement_id, notifications = super(AccountBankStatementImport, self)._create_bank_statement(stmt_vals)
         bs = self.env['account.bank.statement'].browse(statement_id)
-        bsl = bs.line_ids.sorted(key=lambda r: r.date)[0]
-        bs.balance_start = bsl.line_balance - bsl.amount
+        bsl = bs.line_ids.sorted(key=lambda r: r.date)
+        if bsl:
+            bs.balance_start = bsl[0].line_balance - bsl[0].amount
         return statement_id, notifications
     
 class AccountBankStatementLine(models.Model):
