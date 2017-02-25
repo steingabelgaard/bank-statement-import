@@ -106,16 +106,16 @@ class AccountBankStatementImport(models.TransientModel):
                     if not set(['Dato', 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
                         return super(AccountBankStatementImport, self)._parse_file(data_file)
                     if not date_format:
-                        date_format = self._prepare_csv_date_format(line['Dato'])
+                        date_format = self._prepare_csv_date_format(line['Dato'].strip())
                     
-                    start_date_str = line['Dato'] 
+                    start_date_str = line['Dato'].strip() 
                     date_dt = datetime.strptime(
-                    line['Dato'], date_format)
-                    start_saldo = self._csv_convert_amount(line[u'Saldo'])
-                    start_amount = self._csv_convert_amount(line[u'Beløb'])
+                    line['Dato'].strip(), date_format)
+                    start_saldo = self._csv_convert_amount(line[u'Saldo'].strip())
+                    start_amount = self._csv_convert_amount(line[u'Beløb'].strip())
                     start_balance =  start_saldo - start_amount 
                      
-                if end_date_str == line['Dato']:
+                if end_date_str == line['Dato'].strip():
                     d += 1
                 else:
                     d = 1
@@ -123,15 +123,15 @@ class AccountBankStatementImport(models.TransientModel):
                 try:
                     vals_line = {
                         'date': datetime.strptime(line[
-                                                       'Dato'], date_format),
+                                                       'Dato'].strip(), date_format),
                         'name': line['Tekst'],
-                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'], line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
                         'ref' : self._csv_get_note(line),
                         }
-                    end_date_str = line['Dato']
+                    end_date_str = line['Dato'].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
                     _logger.debug("vals_line = %s" % vals_line)
