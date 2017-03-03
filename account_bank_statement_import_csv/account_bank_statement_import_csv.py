@@ -22,12 +22,12 @@
 import logging
 from datetime import datetime
 from openerp import models, fields, api, _
-from openerp.exceptions import Warning as UserError
+from odoo.exceptions import UserError
 import unicodecsv
 import re
 from cStringIO import StringIO
 import hashlib
-from openerp.tools import ustr
+from odoo.tools import ustr
 
 import openerp.addons.decimal_precision as dp
 
@@ -128,7 +128,7 @@ class AccountBankStatementImport(models.TransientModel):
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
-                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'unique_import_id': "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
@@ -139,8 +139,8 @@ class AccountBankStatementImport(models.TransientModel):
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
                     _logger.debug("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
-                except:
-                    raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
+                except Exception as e:
+                    raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
