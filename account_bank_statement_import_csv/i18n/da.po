@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-11-11 07:56+0000\n"
-"PO-Revision-Date: 2016-11-11 09:10+0100\n"
+"POT-Creation-Date: 2017-02-28 13:05+0000\n"
+"PO-Revision-Date: 2017-02-28 14:10+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: da\n"
@@ -19,12 +19,21 @@ msgstr ""
 
 #. module: account_bank_statement_import_csv
 #: model:ir.model,name:account_bank_statement_import_csv.model_account_bank_statement_line
-#, fuzzy
 msgid "Bank Statement Line"
-msgstr "Importer bank kontoudtog"
+msgstr "Bank kontoudtogslinie"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:139
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:145
+#, python-format
+msgid ""
+"File parse error:\n"
+"%s"
+msgstr ""
+"Fortolkning af filen fejlede:\n"
+"%s"
+
+#. module: account_bank_statement_import_csv
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:143
 #, python-format
 msgid ""
 "Format Error\n"
@@ -34,7 +43,7 @@ msgstr ""
 "Linie %d kunne ikke behandles"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:150
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:156
 #, python-format
 msgid "Import %s - %s"
 msgstr "Import %s - %s"

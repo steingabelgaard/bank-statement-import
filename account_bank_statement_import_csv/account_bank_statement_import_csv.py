@@ -27,6 +27,7 @@ import unicodecsv
 import re
 from cStringIO import StringIO
 import hashlib
+from openerp.tools import ustr
 
 import openerp.addons.decimal_precision as dp
 
@@ -82,7 +83,7 @@ class AccountBankStatementImport(models.TransientModel):
         """ Import a file in Danish Bank CSV format"""
         
         f = StringIO()
-        f.write(data_file)
+        f.write(data_file.lstrip())
         f.seek(0)
         transactions = []
         i = 0
@@ -93,51 +94,56 @@ class AccountBankStatementImport(models.TransientModel):
         unique_hash = hashlib.sha1(bytearray(self.filename, 'utf-8') + data_file)
         # To confirm : is the encoding always latin1 ?
         date_format = False
-        for line in unicodecsv.DictReader(
-                f, encoding=self._prepare_csv_encoding(), delimiter=';'):
-            
-            
-            i += 1
-            
-            if i == 1:
-                # verify file format
-                _logger.info("KEYS: %s", line.keys())
-                if not set(['Dato', 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
-                    return super(AccountBankStatementImport, self)._parse_file(data_file)
-                if not date_format:
-                    date_format = self._prepare_csv_date_format(line['Dato'])
+        date_field = 'Dato'
+        try:
+            for line in unicodecsv.DictReader(
+                    f, encoding=self._prepare_csv_encoding(), delimiter=';'):
                 
-                start_date_str = line['Dato'] 
-                date_dt = datetime.strptime(
-                line['Dato'], date_format)
-                start_saldo = self._csv_convert_amount(line[u'Saldo'])
-                start_amount = self._csv_convert_amount(line[u'Beløb'])
-                start_balance =  start_saldo - start_amount 
-                 
-            if end_date_str == line['Dato']:
-                d += 1
-            else:
-                d = 1
-            _logger.info('Procsessing line: %d', i)
-            try:
-                vals_line = {
-                    'date': datetime.strptime(line[
-                                                   'Dato'], date_format),
-                    'name': line['Tekst'],
-                    'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line['Dato'], line['Tekst'], line[u'Beløb'], line[u'Saldo']),
-                    'amount': self._csv_convert_amount(line[u'Beløb']),
-                    'line_balance': self._csv_convert_amount(line[u'Saldo']),
-                    'bank_account_id': False,
-                    'ref' : self._csv_get_note(line),
-                    }
-                end_date_str = line['Dato']
-                end_balance = self._csv_convert_amount(line[u'Saldo'])
-                end_amount = self._csv_convert_amount(line[u'Beløb'])
-                _logger.debug("vals_line = %s" % vals_line)
-                transactions.append(vals_line)
-            except:
-                raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
-            
+                
+                i += 1
+                
+                if i == 1:
+                    # verify file format
+                    _logger.info("KEYS: %s", line.keys())
+                    if u'Bogført' in line.keys():
+                        date_field = u'Bogført'
+                    if not set([date_field, 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
+                        return super(AccountBankStatementImport, self)._parse_file(data_file)
+                    if not date_format:
+                        date_format = self._prepare_csv_date_format(line[date_field].strip())
+                    
+                    start_date_str = line[date_field].strip() 
+                    date_dt = datetime.strptime(
+                    line[date_field].strip(), date_format)
+                    start_saldo = self._csv_convert_amount(line[u'Saldo'].strip())
+                    start_amount = self._csv_convert_amount(line[u'Beløb'].strip())
+                    start_balance =  start_saldo - start_amount 
+                     
+                if end_date_str == line[date_field].strip():
+                    d += 1
+                else:
+                    d = 1
+                _logger.info('Procsessing line: %d', i)
+                try:
+                    vals_line = {
+                        'date': datetime.strptime(line[date_field].strip(), date_format),
+                        'name': line['Tekst'],
+                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'amount': self._csv_convert_amount(line[u'Beløb']),
+                        'line_balance': self._csv_convert_amount(line[u'Saldo']),
+                        'bank_account_id': False,
+                        'ref' : self._csv_get_note(line),
+                        }
+                    end_date_str = line[date_field].strip()
+                    end_balance = self._csv_convert_amount(line[u'Saldo'])
+                    end_amount = self._csv_convert_amount(line[u'Beløb'])
+                    _logger.debug("vals_line = %s" % vals_line)
+                    transactions.append(vals_line)
+                except:
+                    raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
+        except Exception as e:
+            raise UserError(_('File parse error:\n%s') % ustr(e))
+        
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
             #swap start / end
             swap_date = start_date_str
