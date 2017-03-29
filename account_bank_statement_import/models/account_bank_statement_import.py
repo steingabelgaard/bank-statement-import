@@ -61,6 +61,11 @@ class AccountBankStatementImport(models.TransientModel):
         go to reconciliation."""
         self.ensure_one()
         data_file = base64.b64decode(self.data_file)
+        # Validate journal
+        if self.journal_id:
+            if (not self.journal_id.default_credit_account_id) \
+                    or (not self.journal_id.default_debit_account_id):
+                raise UserError(_('Please verify that an account is defined in the journal.'))
         # pylint: disable=protected-access
         statement_ids, notifications = self.with_context(
             active_id=self.id  # pylint: disable=no-member
