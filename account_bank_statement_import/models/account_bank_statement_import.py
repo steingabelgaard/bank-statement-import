@@ -378,6 +378,9 @@ class AccountBankStatementImport(models.TransientModel):
                 filtered_st_lines.append(line_vals)
             else:
                 ignored_line_ids.append(unique_id)
+                if 'balance_start' in stmt_vals:
+                    stmt_vals['balance_start'] += line_vals['amount']
+
         statement_id = False
         if len(filtered_st_lines) > 0:
             # Remove values that won't be used to create records
