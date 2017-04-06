@@ -137,7 +137,7 @@ class AccountBankStatementImport(models.TransientModel):
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
-                    _logger.debug("vals_line = %s" % vals_line)
+                    _logger.info("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except:
                     raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
@@ -146,6 +146,7 @@ class AccountBankStatementImport(models.TransientModel):
         
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
             #swap start / end
+            _logger.debug("Swapper start/end: %s %s", end_balance, end_amount)
             swap_date = start_date_str
             start_date_str = end_date_str
             end_date_str = swap_date
@@ -159,17 +160,10 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_end_real': end_balance,
             'transactions': transactions,
         }
+        _logger.debug("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]
 
-    @api.model
-    def _create_bank_statement(self, stmt_vals):
-        statement_id, notifications = super(AccountBankStatementImport, self)._create_bank_statement(stmt_vals)
-        bs = self.env['account.bank.statement'].browse(statement_id)
-        bsl = bs.line_ids.sorted(key=lambda r: r.date)
-        if bsl:
-            bs.balance_start = bsl[0].line_balance - bsl[0].amount
-        return statement_id, notifications
-    
+
 class AccountBankStatementLine(models.Model):
     """Extend model account.bank.statement.line."""
     # pylint: disable=too-many-public-methods
