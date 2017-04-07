@@ -7,7 +7,7 @@ from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 
 from openerp import api, models, fields
 from openerp.tools.translate import _
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import Warning as UserError, RedirectWarning
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -244,6 +244,7 @@ class AccountBankStatementImport(models.TransientModel):
         bank_model = self.env['res.partner.bank']
         # Find the journal from context, wizard or bank account
         journal_id = self.env.context.get('journal_id') or self.journal_id.id
+        currency = self.env['res.currency'].browse(currency_id)
         if bank_account_id:
             bank_account = bank_model.browse(bank_account_id)
             if journal_id:
@@ -273,23 +274,26 @@ class AccountBankStatementImport(models.TransientModel):
                         journal_currency_id
                     )
                     raise UserError(_(
-                        'The currency of the bank statement is not '
-                        'the same as the currency of the journal !'
-                    ))
+                        'The currency of the bank statement (%s) is not '
+                        'the same as the currency of the journal %s (%s) !'
+                    ) % (
+                        currency.name,
+                        journal_obj.name,
+                        journal_obj.currency.name))
             else:
-                company_currency_id = self.env.user.company_id.currency_id.id
-                if currency_id != company_currency_id:
+                company_currency = self.env.user.company_id.currency_id
+                if currency_id != company_currency.id:
                     # ALso log message with id's for technical analysis:
                     _logger.warn(
                         _('Statement currency id is %d,'
                           ' but company currency id = %d.'),
                         currency_id,
-                        company_currency_id
+                        company_currency.id
                     )
                     raise UserError(_(
-                        'The currency of the bank statement is not '
-                        'the same as the company currency !'
-                    ))
+                        'The currency of the bank statement (%s) is not '
+                        'the same as the company currency (%s) !'
+                    ) % (currency.name, company_currency.name))
         return journal_id
 
     @api.model
@@ -355,6 +359,17 @@ class AccountBankStatementImport(models.TransientModel):
                         bank_account_id = bank_obj and bank_obj.id or False
                 line_vals['partner_id'] = partner_id
                 line_vals['bank_account_id'] = bank_account_id
+        if 'date' in stmt_vals and 'period_id' not in stmt_vals:
+            # if the parser found a date but didn't set a period for this date,
+            # do this now
+            try:
+                stmt_vals['period_id'] =\
+                    self.env['account.period']\
+                        .with_context(account_period_prefer_normal=True)\
+                        .find(dt=stmt_vals['date']).id
+            except RedirectWarning:
+                # if there's no period for the date, ignore resulting exception
+                pass
         return stmt_vals
 
     @api.model
