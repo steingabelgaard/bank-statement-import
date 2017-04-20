@@ -5,8 +5,8 @@
             <field name="model">account.bank.statement.import</field>
             <field name="inherit_id" ref="account_bank_statement_import.account_bank_statement_import_view" />
             <field name="arch" type="xml">
-                <field name="journal_id" position="after">
-                    <field name="auto_reconcile" attrs="{'invisible': [('hide_journal_field', '=', True)]}" class="oe_inline" />
+                <field name="filename" position="after">
+                    <field name="auto_reconcile" class="oe_inline" />
                     <label for="auto_reconcile" />
                 </field>
             </field>
