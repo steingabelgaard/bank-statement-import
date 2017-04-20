@@ -1,0 +1,54 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * account_bank_statement_import_save_file
+# 
+# Translators:
+# Rudolf Schnapka <rs@techno-flex.de>, 2015
+msgid ""
+msgstr ""
+"Project-Id-Version: bank-statement-import (8.0)\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-03-04 01:15+0000\n"
+"PO-Revision-Date: 2017-03-06 19:00+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
+"Language-Team: German (http://www.transifex.com/oca/OCA-bank-statement-import-8-0/language/de/)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Language: de\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account_bank_statement_import_save_file
+#: model:ir.model,name:account_bank_statement_import_save_file.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Kontoauszug"
+
+#. module: account_bank_statement_import_save_file
+#: field:account.bank.statement,import_date:0
+msgid "Date Created"
+msgstr ""
+
+#. module: account_bank_statement_import_save_file
+#: field:account.bank.statement,import_log:0
+msgid "Description"
+msgstr "Beschreibung"
+
+#. module: account_bank_statement_import_save_file
+#: model:ir.model,name:account_bank_statement_import_save_file.model_account_bank_statement_import
+msgid "Import Bank Statement"
+msgstr "Kontoauszug importieren"
+
+#. module: account_bank_statement_import_save_file
+#: field:account.bank.statement,import_file:0
+msgid "Import file"
+msgstr "Datei importieren"
+
+#. module: account_bank_statement_import_save_file
+#: view:account.bank.statement:account_bank_statement_import_save_file.view_bank_statement_form
+msgid "Imported file"
+msgstr "Importierte Datei"
+
+#. module: account_bank_statement_import_save_file
+#: field:account.bank.statement,import_user:0
+msgid "Owner"
+msgstr "Besitzer"

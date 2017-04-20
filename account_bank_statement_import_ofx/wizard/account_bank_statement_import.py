@@ -3,9 +3,8 @@
 import logging
 import StringIO
 
-from odoo import api, models, fields, _
+from odoo import api, models, _
 from odoo.exceptions import UserError
-from odoo.tools import float_is_zero
 
 _logger = logging.getLogger(__name__)
 
@@ -32,14 +31,6 @@ class AccountBankStatementImport(models.TransientModel):
 
     @api.model
     def _prepare_ofx_transaction_line(self, transaction):
-        # since odoo 9, the account module defines a constraint
-        # on account.bank.statement.line: 'amount' must be != 0
-        # But some banks have some transactions with amount=0
-        # for bank charges that are offered, which blocks the import
-        precision = self.env['decimal.precision'].precision_get('Account')
-        if float_is_zero(
-                float(transaction.amount), precision_digits=precision):
-            return False
         # Since ofxparse doesn't provide account numbers,
         # we cannot provide the key 'bank_account_id',
         # nor the key 'account_number'
@@ -56,7 +47,6 @@ class AccountBankStatementImport(models.TransientModel):
         }
         return vals
 
-    @api.model
     def _parse_file(self, data_file):
         ofx = self._check_ofx(data_file)
         if not ofx:
@@ -65,30 +55,23 @@ class AccountBankStatementImport(models.TransientModel):
 
         transactions = []
         total_amt = 0.00
-        start_date = end_date = False
         try:
             for transaction in ofx.account.statement.transactions:
                 vals = self._prepare_ofx_transaction_line(transaction)
                 if vals:
                     transactions.append(vals)
                     total_amt += vals['amount']
-                    tdate = fields.Date.to_string(vals['date'])
-                    if not start_date or tdate < start_date:
-                        start_date = tdate
-                    if not end_date or tdate > end_date:
-                        end_date = tdate
         except Exception, e:
             raise UserError(_(
                 "The following problem occurred during import. "
                 "The file might not be valid.\n\n %s") % e.message)
 
+        balance = float(ofx.account.statement.balance)
         vals_bank_statement = {
-            'name': _('Account %s %s > %s') % (
-                ofx.account.number, start_date, end_date),
+            'name': ofx.account.number,
             'transactions': transactions,
-            'balance_start': ofx.account.statement.balance,
-            'balance_end_real':
-            float(ofx.account.statement.balance) + total_amt,
+            'balance_start': balance - total_amt,
+            'balance_end_real': balance,
         }
         return ofx.account.statement.currency, ofx.account.number, [
             vals_bank_statement]
