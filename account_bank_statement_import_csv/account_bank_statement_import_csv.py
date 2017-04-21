@@ -161,20 +161,3 @@ class AccountBankStatementImport(models.TransientModel):
         }
         return None, None, [vals_bank_statement]
 
-    @api.model
-    def _create_bank_statement(self, stmt_vals):
-        statement_id, notifications = super(AccountBankStatementImport, self)._create_bank_statement(stmt_vals)
-        bs = self.env['account.bank.statement'].browse(statement_id)
-        bsl = bs.line_ids.sorted(key=lambda r: r.date)
-        if bsl:
-            bs.balance_start = bsl[0].line_balance - bsl[0].amount
-        return statement_id, notifications
-    
-class AccountBankStatementLine(models.Model):
-    """Extend model account.bank.statement.line."""
-    # pylint: disable=too-many-public-methods
-    _inherit = "account.bank.statement.line"
-    
-    line_balance = fields.Float(digits_compute=dp.get_precision('Account'))
-    
-
