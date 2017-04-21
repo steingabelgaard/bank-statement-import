@@ -124,15 +124,15 @@ class AccountBankStatementImport(models.TransientModel):
                     partner_name = False
                     p = self.env['res.partner'].search([('ref', '=', line['partner'])])
                     if p:
-                        partner_name = p.name
+                        partner_name = p.ref
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
-                        'name': partner_name,
+                        'name': "%s %s" % (line['partner'], partner_name),
                         'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['ref'], line['partner'], line[u'amount']),
                         'amount': self._csv_convert_amount(line['amount']),
                         'bank_account_id': False,
                         'ref' : line['ref'],
-                        'partner_name': partner_name,
+                        'partner_name': line['partner'],
                         }
                     end_balance += self._csv_convert_amount(line[u'amount'])
                     
