@@ -97,7 +97,7 @@ class AccountBankStatementImport(models.TransientModel):
         date_field = 'Dato'
         try:
             for line in unicodecsv.DictReader(
-                    f, encoding=self._prepare_csv_encoding(), delimiter=';'):
+                    f, encoding=self._prepare_csv_encoding(), delimiter=';', fieldnames=['Dato','Tekst',u';Beløb','Saldo','Kommentar','Kategori']):
                 
                 
                 i += 1

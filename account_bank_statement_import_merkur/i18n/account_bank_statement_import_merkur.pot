@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-#	* account_bank_statement_import_csv
+#	* account_bank_statement_import_merkur
 #
 msgid ""
 msgstr ""
@@ -15,29 +15,29 @@ msgstr ""
 "Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
 
-#. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:145
+#. module: account_bank_statement_import_merkur
+#: code:addons/account_bank_statement_import_merkur/account_bank_statement_import_merkur.py:145
 #, python-format
 msgid "File parse error:\n"
 "%s"
 msgstr ""
 
-#. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:143
+#. module: account_bank_statement_import_merkur
+#: code:addons/account_bank_statement_import_merkur/account_bank_statement_import_merkur.py:143
 #, python-format
 msgid "Format Error\n"
 "Line %d could not be processed\n"
 "%s"
 msgstr ""
 
-#. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:156
+#. module: account_bank_statement_import_merkur
+#: code:addons/account_bank_statement_import_merkur/account_bank_statement_import_merkur.py:156
 #, python-format
 msgid "Import %s - %s"
 msgstr ""
 
-#. module: account_bank_statement_import_csv
-#: model:ir.model,name:account_bank_statement_import_csv.model_account_bank_statement_import
+#. module: account_bank_statement_import_merkur
+#: model:ir.model,name:account_bank_statement_import_merkur.model_account_bank_statement_import
 msgid "Import Bank Statement"
 msgstr ""
 
