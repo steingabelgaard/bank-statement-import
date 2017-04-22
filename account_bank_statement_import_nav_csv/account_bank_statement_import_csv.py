@@ -133,6 +133,7 @@ class AccountBankStatementImport(models.TransientModel):
                         'bank_account_id': False,
                         'ref' : line['ref'],
                         'partner_name': line['partner'],
+                        'partner_id': p.id if p else False,
                         }
                     end_balance += self._csv_convert_amount(line[u'amount'])
                     
