@@ -132,7 +132,13 @@ class AccountBankStatementImport(models.TransientModel):
                         if len(txparts) > 1:
                             # Add the whole text as search
                             txparts.append(line['Tekst'])
-                        partner = self.env['res.partner'].search(['|', ('name','in', txparts), ('ref','in', txparts)])
+                            
+                        domain = []
+                        for t in txparts:
+                            if len(t) > 1:
+                                domain += [('name','=ilike', t), ('ref','=ilike', t)]
+                        domain = ['|'] * (len(domain) - 1) + domain
+                        partner = self.env['res.partner'].search(domain)
                         for t in txparts:
                             if '/' in t and len(t) > 3:
                                 ref = t
