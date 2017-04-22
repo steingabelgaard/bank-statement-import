@@ -125,6 +125,19 @@ class AccountBankStatementImport(models.TransientModel):
                     d = 1
                 _logger.info('Procsessing line: %d', i)
                 try:
+                    partner = False
+                    ref = False
+                    txparts = line['Tekst'].split()
+                    if txparts:
+                        if len(txparts) > 1:
+                            # Add the whole text as search
+                            txparts.append(line['Tekst'])
+                        partner = self.env['res.partner'].search(['|', ('name','in', txparts), ('ref','in', txparts)])
+                        for t in txparts:
+                            if '/' in t and len(t) > 3:
+                                ref = t
+                                break
+
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
@@ -132,7 +145,9 @@ class AccountBankStatementImport(models.TransientModel):
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
-                        'ref' : self._csv_get_note(line),
+                        'note' : self._csv_get_note(line),
+                        'ref' : ref,
+                        'partner_id': partner[0].id if partner else False,
                         }
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
@@ -140,6 +155,7 @@ class AccountBankStatementImport(models.TransientModel):
                     _logger.info("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except:
+                    _logger.exception('Failed line %d', (i+1))
                     raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
         except Exception as e:
             raise UserError(_('File parse error:\n%s') % ustr(e))
