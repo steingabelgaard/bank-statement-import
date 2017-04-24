@@ -63,9 +63,9 @@ class AccountBankStatementImport(models.TransientModel):
     def _csv_convert_amount(self, amount_str):
         '''This method is designed to be inherited'''
         valstr = re.sub(r'[^\d,.-]', '', amount_str)
-        valstrdot = valstr.replace('.', '')
-        valstrdot = valstrdot.replace(',', '.')
-        return float(valstrdot)
+        #valstrdot = valstr.replace('.', '')
+        #valstrdot = valstrdot.replace(',', '.')
+        return float(valstr)
     
     @api.model
     def _csv_get_note(self, line):
@@ -97,18 +97,15 @@ class AccountBankStatementImport(models.TransientModel):
         date_field = 'Dato'
         try:
             for line in unicodecsv.DictReader(
-                    f, encoding=self._prepare_csv_encoding(), delimiter=';', fieldnames=['Dato','Tekst',u';Beløb','Saldo','Kommentar','Kategori']):
+                    f, encoding=self._prepare_csv_encoding(), delimiter=';', fieldnames=['Dato','Tekst',u'Beløb','Saldo', u'Valør','Kommentar','Kategori']):
                 
                 
                 i += 1
                 
                 if i == 1:
                     # verify file format
-                    _logger.info("KEYS: %s", line.keys())
-                    if u'Bogført' in line.keys():
-                        date_field = u'Bogført'
-                    if not set([date_field, 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
-                        return super(AccountBankStatementImport, self)._parse_file(data_file)
+                    _logger.info("KEYS: %s", line)
+                    
                     if not date_format:
                         date_format = self._prepare_csv_date_format(line[date_field].strip())
                     
@@ -130,7 +127,6 @@ class AccountBankStatementImport(models.TransientModel):
                         'name': line['Tekst'],
                         'unique_import_id': "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
                         'amount': self._csv_convert_amount(line[u'Beløb']),
-                        'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
                         'ref' : self._csv_get_note(line),
                         }
@@ -140,6 +136,7 @@ class AccountBankStatementImport(models.TransientModel):
                     _logger.debug("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except Exception as e:
+                    _logger.exception('Failed line %d', (i+1))
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
             raise UserError(_('File parse error:\n%s') % ustr(e))
