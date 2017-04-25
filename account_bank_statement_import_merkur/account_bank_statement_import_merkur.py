@@ -78,9 +78,8 @@ class AccountBankStatementImport(models.TransientModel):
             note = ' '.join(filter(None, fields))
         return note
     
-    @api.model
     def _parse_file(self, data_file):
-        """ Import a file in Danish Bank CSV format"""
+        """ Import a file in Merkur Bank CSV format"""
         
         f = StringIO()
         f.write(data_file.lstrip())
