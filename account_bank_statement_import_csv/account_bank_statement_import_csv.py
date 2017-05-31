@@ -166,7 +166,7 @@ class AccountBankStatementImport(models.TransientModel):
         except Exception as e:
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
-        if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
+        if start_date_str and datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
             #swap start / end
             _logger.debug("Swapper start/end: %s %s", end_balance, end_amount)
             swap_date = start_date_str
