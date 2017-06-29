@@ -55,8 +55,8 @@ msgstr "En bankkonto transaktion kan kun importeres én gang!"
 #. module: account_bank_statement_import
 #: help:account.bank.statement.import,journal_id:0
 msgid ""
-"Accounting journal related to the bank statement you're importing. It has "
-"be be manually chosen for statement formats which doesn't allow automatic "
+"Accounting journal related to the bank statement you're importing. It has be"
+" be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
 "Regnskabsjournal relateret til det kontoudtog, du importerer. Det skal "
@@ -112,11 +112,13 @@ msgstr "Annuller"
 msgid ""
 "Could not make sense of the given file.\n"
 "Did you install the module to support this type of file?"
-msgstr "Kan ikke forstå den valgte fil.\n"
+msgstr ""
+"Kan ikke forstå den valgte fil.\n"
 "Formatet er en semikolon separeret fil med følgende felter (angivet i første linie):\n"
 "Dato eller Bogført\n"
 "Tekst\n"
-"Beløb\n\n"
+"Beløb\n"
+"\n"
 "Saldo\n"
 "Følgende felter, hvis de er angivet, vil blive lagt ind som reference:\n"
 "Kommentar\n"
@@ -277,7 +279,7 @@ msgstr "Du har allerede indlæst denne fil."
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "_Import"
-msgstr ""
+msgstr "_Importér"
 
 #. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
