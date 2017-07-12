@@ -122,11 +122,11 @@ class AccountBankStatementImport(models.TransientModel):
                 _logger.info('Procsessing line: %d', i)
                 try:
                     partner_name = False
-                    currency = False
+                    
                     p = self.env['res.partner'].search([('ref', '=', line['partner'])])
                     if p:
                         partner_name = p.ref
-                        currency = p.property_account_receivable.currency_id.name if  p.property_account_receivable.currency_id else 'DKK'
+                        currency = p.property_account_receivable.currency_id
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': "%s %s" % (line['partner'], partner_name),
@@ -136,12 +136,14 @@ class AccountBankStatementImport(models.TransientModel):
                         'ref' : line['ref'],
                         'partner_name': line['partner'],
                         'partner_id': p.id if p else False,
-                        'currency_code': currency
+                        
                         }
+                    
                     end_balance += self._csv_convert_amount(line[u'amount'])
                     
                     _logger.info("vals_line = %s" % vals_line)
-                    transactions.append(vals_line)
+                    if currency == self.journal_id.currency:
+                        transactions.append(vals_line)
                 except Exception as e:
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
@@ -153,6 +155,7 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
+            'currency_code': self.journal_id.currency.name if self.journal_id.currency else 'DKK'
         }
         _logger.debug("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]
