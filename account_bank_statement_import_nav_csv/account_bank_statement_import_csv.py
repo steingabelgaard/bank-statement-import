@@ -157,6 +157,6 @@ class AccountBankStatementImport(models.TransientModel):
             'transactions': transactions,
             'currency_code': self.journal_id.currency.name if self.journal_id.currency else 'DKK'
         }
-        _logger.debug("vals_stmt = %s" % vals_bank_statement)
+        _logger.info("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]
 
