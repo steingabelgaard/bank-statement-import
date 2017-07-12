@@ -156,8 +156,9 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
-            'currency_code': self.journal_id.currency.name if self.journal_id.currency else 'DKK'
+            
         }
+        currency_code = self.journal_id.currency.name if self.journal_id.currency else 'DKK'
         _logger.info("vals_stmt = %s" % vals_bank_statement)
-        return None, None, [vals_bank_statement]
+        return currency_code, None, [vals_bank_statement]
 
