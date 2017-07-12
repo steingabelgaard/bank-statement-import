@@ -139,10 +139,11 @@ class AccountBankStatementImport(models.TransientModel):
                         
                         }
                     
-                    end_balance += self._csv_convert_amount(line[u'amount'])
+                   
                     
                     _logger.info("vals_line = %s" % vals_line)
                     if currency == self.journal_id.currency:
+                        end_balance += self._csv_convert_amount(line[u'amount'])
                         transactions.append(vals_line)
                 except Exception as e:
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))

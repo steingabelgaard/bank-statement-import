@@ -147,6 +147,7 @@ class AccountBankStatementImport(models.TransientModel):
         account_number = stmt_vals.pop('account_number')
         # Try to find the bank account and currency in odoo
         currency_id = self._find_currency_id(currency_code)
+        _logger.info('CURRENCY: %s - %d', currency_code, currency_id)
         bank_account_id = self._find_bank_account_id(account_number)
         if not bank_account_id and account_number:
             raise UserError(
