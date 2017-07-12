@@ -122,9 +122,11 @@ class AccountBankStatementImport(models.TransientModel):
                 _logger.info('Procsessing line: %d', i)
                 try:
                     partner_name = False
+                    currency = False
                     p = self.env['res.partner'].search([('ref', '=', line['partner'])])
                     if p:
                         partner_name = p.ref
+                        currency = p.property_account_receivable.currency_id.name if  p.property_account_receivable.currency_id else 'DKK'
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': "%s %s" % (line['partner'], partner_name),
@@ -134,6 +136,7 @@ class AccountBankStatementImport(models.TransientModel):
                         'ref' : line['ref'],
                         'partner_name': line['partner'],
                         'partner_id': p.id if p else False,
+                        'currency_code': currency
                         }
                     end_balance += self._csv_convert_amount(line[u'amount'])
                     
