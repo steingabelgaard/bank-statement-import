@@ -127,24 +127,24 @@ class AccountBankStatementImport(models.TransientModel):
                     if p:
                         partner_name = p.ref
                         currency = p.property_account_receivable.currency_id
-                    vals_line = {
-                        'date': datetime.strptime(line[date_field].strip(), date_format),
-                        'name': "%s %s" % (line['partner'], partner_name),
-                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['ref'], line['partner'], line[u'amount']),
-                        'amount': self._csv_convert_amount(line['amount']),
-                        'bank_account_id': False,
-                        'ref' : line['ref'],
-                        'partner_name': line['partner'],
-                        'partner_id': p.id if p else False,
+                        vals_line = {
+                            'date': datetime.strptime(line[date_field].strip(), date_format),
+                            'name': "%s %s" % (line['partner'], partner_name),
+                            'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['ref'], line['partner'], line[u'amount']),
+                            'amount': self._csv_convert_amount(line['amount']),
+                            'bank_account_id': False,
+                            'ref' : line['ref'],
+                            'partner_name': line['partner'],
+                            'partner_id': p.id if p else False,
+                            
+                            }
                         
-                        }
-                    
-                   
-                    
-                    _logger.info("vals_line = %s" % vals_line)
-                    if currency == self.journal_id.currency:
-                        end_balance += self._csv_convert_amount(line[u'amount'])
-                        transactions.append(vals_line)
+                       
+                        
+                        _logger.info("vals_line = %s" % vals_line)
+                        if currency == self.journal_id.currency:
+                            end_balance += self._csv_convert_amount(line[u'amount'])
+                            transactions.append(vals_line)
                 except Exception as e:
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
