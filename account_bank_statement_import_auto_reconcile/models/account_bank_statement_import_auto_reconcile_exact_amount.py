@@ -44,7 +44,7 @@ class AccountBankStatementImportAutoReconcileExactAmount(models.AbstractModel):
             ('reconcile_id', '=', False),
             ('state', '=', 'valid'),
             ('account_id.reconcile', '=', True),
-            ('partner_id', '=', statement_line.partner_id.id),
+            ('partner_id', '=', statement_line.partner_id.commercial_partner_id.id),
             (amount_field, '=', self._round(sign * statement_line.amount)),
         ]
         move_lines = self.env['account.move.line'].search(domain, limit=1)
