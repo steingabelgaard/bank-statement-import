@@ -97,7 +97,8 @@ class AccountBankStatementImport(models.TransientModel):
         try:
             for line in unicodecsv.DictReader(
                     f, encoding=self._prepare_csv_encoding(), delimiter=';', fieldnames=['Dato','Tekst',u'Beløb','Saldo', u'Valør','Kommentar','Kategori']):
-                
+                if not len(line) > 2:
+                    return super(AccountBankStatementImport, self)._parse_file(data_file)
                 
                 i += 1
                 
@@ -138,6 +139,7 @@ class AccountBankStatementImport(models.TransientModel):
                     _logger.exception('Failed line %d', (i+1))
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
+            _logger.exception('File parse error')
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
