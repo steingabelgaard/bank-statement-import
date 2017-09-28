@@ -2,7 +2,8 @@
 # © 2017 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 from openerp import _, api, fields, models
-
+import logging
+_logger = logging.getLogger(__name__)
 
 # pylint: disable=R7980
 class AccountBankStatementImport(models.TransientModel):
@@ -11,16 +12,16 @@ class AccountBankStatementImport(models.TransientModel):
     auto_reconcile = fields.Boolean('Auto reconcile', default=True)
 
     @api.model
-    def _create_bank_statement(self, stmt_vals):
+    def _create_bank_statements(self, stmt_vals):
+        _logger.info('ACCOUNT BANK')
         statement_id, notifications = super(
             AccountBankStatementImport, self
-        )._create_bank_statement(stmt_vals)
+        )._create_bank_statements(stmt_vals)
         if not statement_id:
             return statement_id, notifications
         statement = self.env['account.bank.statement'].browse(statement_id)
         if (
-                not statement.journal_id
-                .statement_import_auto_reconcile_rule_ids or
+                not statement.journal_id.statement_import_auto_reconcile_rule_ids or
                 not self.auto_reconcile
         ):
             return statement_id, notifications
