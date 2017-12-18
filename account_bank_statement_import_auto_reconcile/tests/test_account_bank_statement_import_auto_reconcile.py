@@ -3,9 +3,9 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
 import base64
 from datetime import timedelta
-from openerp import fields
-from openerp.tests.common import TransactionCase
-from openerp.addons.account_bank_statement_import.models\
+from odoo import fields
+from odoo.tests.common import TransactionCase
+from odoo.addons.account_bank_statement_import.models\
     .account_bank_statement_import import AccountBankStatementImport
 
 
