@@ -69,7 +69,7 @@ class TestSaveFile(TransactionCase):
                 ]).ids[0]
             account.journal_id = journal_id
         action = import_wizard.with_context(journal_id=journal_id)\
-            .create({'data_file': base64.b64encode('hello world')})\
+            .create({'data_file': base64.b64encode('hello world'), 'filename': 'hello.csv'})\
             .import_file()
         for statement in self.env['account.bank.statement'].browse(
                 action['context']['statement_ids']):
