@@ -32,7 +32,7 @@ class AccountBankStatementImportReapplyRules(models.TransientModel):
 
         for line in self.env['account.bank.statement.line'].search([
                 ('statement_id', 'in', statements.ids),
-                ('journal_entry_id', '=', False),
+                ('journal_entry_ids', '=', False),
         ]):
             for rule in reconcile_rules:
                 if rule.reconcile(line):
