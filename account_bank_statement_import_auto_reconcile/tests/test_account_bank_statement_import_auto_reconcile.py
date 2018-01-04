@@ -5,7 +5,7 @@ import base64
 from datetime import timedelta
 from odoo import fields
 from odoo.tests.common import TransactionCase
-from odoo.addons.account_bank_statement_import.models\
+from odoo.addons.account_bank_statement_import\
     .account_bank_statement_import import AccountBankStatementImport
 
 
