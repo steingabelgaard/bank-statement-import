@@ -17,12 +17,12 @@ class AccountBankStatementImport(models.TransientModel):
         statement_id, notifications = super(
             AccountBankStatementImport, self
         )._create_bank_statements(stmt_vals)
-        if not statement_id:
+        if not statement_id or len(statement_id) > 1:
             return statement_id, notifications
         statement = self.env['account.bank.statement'].browse(statement_id)
         if (
-                not statement.journal_id.statement_import_auto_reconcile_rule_ids or
-                not self.auto_reconcile
+                not self.auto_reconcile or
+                not statement.journal_id.statement_import_auto_reconcile_rule_ids
         ):
             return statement_id, notifications
         reconcile_rules = statement.journal_id\
