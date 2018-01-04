@@ -86,6 +86,8 @@ class AccountBankStatementImport(models.TransientModel):
         f.write(data_file.lstrip())
         f.seek(0)
         transactions = []
+        unique_ids = {}
+        notifications = []
         i = 0
         d = 0
         start_balance = end_balance = start_date_str = end_date_str = False
@@ -144,10 +146,31 @@ class AccountBankStatementImport(models.TransientModel):
                                 ref = t
                                 break
 
+                    unique_import_id = "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    if unique_import_id in unique_ids:
+                        prev_line_no = unique_ids[unique_import_id]
+                        prev_line_id = unique_import_id
+                        unique_import_id = unique_import_id + '-%d' % i
+                        unique_ids_list = [prev_line_id,unique_import_id]
+                        notifications += [{
+                            'type': 'warning',
+                            'message': _("Line %d and %d are identical:\n%s %s %0.2f - Balance: %0.2f") % (prev_line_no,
+                                                                                                           i,
+                                                                                                           line[date_field].strip(),
+                                                                                                           line['Tekst'],
+                                                                                                           self._csv_convert_amount(line[u'Beløb']), 
+                                                                                                           self._csv_convert_amount(line[u'Saldo'])
+                                                                                                           ),
+                            'details': {
+                                'name': _('Identical imported items'),
+                                'model': 'account.bank.statement.line',
+                                'unique_ids': unique_ids_list,
+                                },
+                            }]
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
-                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'unique_import_id': unique_import_id,
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
@@ -155,6 +178,7 @@ class AccountBankStatementImport(models.TransientModel):
                         'ref' : ref,
                         'partner_id': partner[0].id if partner else False,
                         }
+                    unique_ids[unique_import_id] = i
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
@@ -181,6 +205,7 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
+            'notifications': notifications,
         }
         _logger.debug("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]

@@ -73,7 +73,7 @@ class AccountBankStatementImport(models.TransientModel):
         # dispatch to reconciliation interface
         action = self.env.ref(
             'account.action_bank_reconcile_bank_statements')
-        return {
+        rec_action = {
             'name': action.name,
             'tag': action.tag,
             'context': {
@@ -82,6 +82,24 @@ class AccountBankStatementImport(models.TransientModel):
             },
             'type': 'ir.actions.client',
         }
+        
+        if notifications:
+            return {
+                'type': 'ir.actions.act_window.message',
+                'title': _('Warning'),
+                'html': '<br/>'.join(
+                        '%(message)s' % notification
+                        for notification in notifications),
+                # optional title of the close button, if not set, will be _('Close')
+                # if set False, no close button will be shown
+                # you can create your own close button with an action of type
+                # ir.actions.act_window_close
+                'close_button_title': False,
+                # this is an optional list of buttons to show
+                'buttons': [rec_action]
+                }
+        else:
+            return rec_action
 
     @api.model
     def _parse_all_files(self, data_file):
@@ -200,6 +218,15 @@ class AccountBankStatementImport(models.TransientModel):
                 -o 'note': string
                 -o 'partner_name': string
                 -o 'ref': string
+                -o 'partner_id': id of partner record
+            -o 'notifications': list of dicts containing:
+                - 'type': 'warning',
+                - 'message': string
+                - 'details': {
+                    'name': string
+                    'model': 'account.bank.statement.line',
+                    -o 'ids': list of records
+                    -o 'unique_ids': List of unique ID's, wil be converted to ids
         """
         raise UserError(_(
             'Could not make sense of the given file.\n'
@@ -413,6 +440,14 @@ class AccountBankStatementImport(models.TransientModel):
             statement_id = bs_model.create(stmt_vals).id
         # Prepare import feedback
         notifications = []
+        if 'notifications' in stmt_vals:
+            notifications = stmt_vals['notifications']
+            for notification in notifications:
+                if 'unique_ids' in notification:
+                    notification['ids'] = bsl_model.search(
+                            [('unique_import_id', 'in', notification['unique_ids'])]).ids
+                    del notification['unique_ids']
+                
         num_ignored = len(ignored_line_ids)
         if num_ignored > 0:
             notifications += [{
