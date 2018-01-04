@@ -21,8 +21,8 @@ class AccountBankStatementImport(models.TransientModel):
             return statement_id, notifications
         statement = self.env['account.bank.statement'].browse(statement_id)
         if (
-                not statement.journal_id.statement_import_auto_reconcile_rule_ids or
-                not self.auto_reconcile
+                not self.auto_reconcile or
+                not statement.journal_id.statement_import_auto_reconcile_rule_ids
         ):
             return statement_id, notifications
         reconcile_rules = statement.journal_id\
