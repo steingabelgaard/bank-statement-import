@@ -18,6 +18,8 @@ class AccountBankStatementImport(models.TransientModel):
         if not statement_id:
             return statement_id, notifications
         statement = self.env['account.bank.statement'].browse(statement_id)
+        if len(statement) > 1:
+            return statement_id, notifications
         if (
                 not self.auto_reconcile or
                 not statement.journal_id
