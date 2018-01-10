@@ -141,6 +141,7 @@ class AccountBankStatementImport(models.TransientModel):
                 except Exception as e:
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
+            _logger.exception('Failed parse')
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
