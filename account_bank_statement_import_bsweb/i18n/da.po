@@ -7,15 +7,16 @@ msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-05 10:02+0000\n"
-"PO-Revision-Date: 2017-02-28 14:10+0100\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2018-01-15 09:00+0000\n"
+"Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
+"Language-Team: Danish <http://weblate.steingabelgaard.dk/projects/bank-"
+"statement-import-10/account_bank_statement_import_bsweb/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 1.8.8\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #. module: account_bank_statement_import_bsweb
 #: code:addons/account_bank_statement_import_bsweb/account_bank_statement_import_bsweb.py:185
@@ -35,14 +36,15 @@ msgstr ""
 
 #. module: account_bank_statement_import_bsweb
 #: code:addons/account_bank_statement_import_bsweb/account_bank_statement_import_bsweb.py:178
-#, fuzzy, python-format
+#, python-format
 msgid ""
 "Format Error\n"
 "Line %d could not be processed\n"
 "%s"
 msgstr ""
 "Format fejl\n"
-"Linie %d kunne ikke behandles"
+"Linie %d kunne ikke behandles\n"
+"%s"
 
 #. module: account_bank_statement_import_bsweb
 #: model:ir.model,name:account_bank_statement_import_bsweb.model_account_bank_statement_import
