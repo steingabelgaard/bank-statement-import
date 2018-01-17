@@ -9,9 +9,9 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bank-statement-import (8.0)\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-01-09 05:03+0000\n"
-"PO-Revision-Date: 2016-01-25 18:14+0000\n"
-"Last-Translator: Antonio Trueba\n"
+"POT-Creation-Date: 2017-03-01 03:20+0000\n"
+"PO-Revision-Date: 2017-03-01 03:20+0000\n"
+"Last-Translator: OCA Transbot <transbot@odoo-community.org>\n"
 "Language-Team: Spanish (http://www.transifex.com/oca/OCA-bank-statement-import-8-0/language/es/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,13 +20,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:392
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:411
 #, python-format
 msgid "%d transactions had already been imported and were ignored."
 msgstr "%d transacciones han sido ya importadas y se omitirán."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:395
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:414
 #, python-format
 msgid "1 transaction had already been imported and was ignored."
 msgstr "1 transacción ha sido ya importada y se omitirá."
@@ -61,7 +61,7 @@ msgid ""
 msgstr "Diario contable asociado al extracto que está importando. Se debe seleccionar manualmente para los extractos en formatos que no permiten detectar el diario automáticamente (p.e., QIF)."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:398
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:417
 #, python-format
 msgid "Already imported items"
 msgstr "Elementos ya importados"
@@ -70,6 +70,11 @@ msgstr "Elementos ya importados"
 #: model:ir.model,name:account_bank_statement_import.model_res_partner_bank
 msgid "Bank Accounts"
 msgstr "Cuentas bancarias"
+
+#. module: account_bank_statement_import
+#: model:ir.model,name:account_bank_statement_import.model_account_bank_statement
+msgid "Bank Statement"
+msgstr "Extracto bancario"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,data_file:0
@@ -87,10 +92,11 @@ msgid "Bank statement import"
 msgstr "Importar extracto bancario"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:153
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:154
 #, python-format
-msgid "Can not determine journal for import."
-msgstr "No se puede determinar el diario a importar."
+msgid ""
+"Can not determine journal for import for account number %s and currency %s."
+msgstr ""
 
 #. module: account_bank_statement_import
 #: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:147
@@ -104,7 +110,7 @@ msgid "Cancel"
 msgstr "Cancelar"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:193
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:197
 #, python-format
 msgid ""
 "Could not make sense of the given file.\n"
@@ -122,6 +128,16 @@ msgid "Created on"
 msgstr "Creado en"
 
 #. module: account_bank_statement_import
+#: field:account.bank.statement.import,display_name:0
+msgid "Display Name"
+msgstr "Nombre mostrado"
+
+#. module: account_bank_statement_import
+#: field:account.journal,enforce_sequence:0
+msgid "Enforce Sequence"
+msgstr ""
+
+#. module: account_bank_statement_import
 #: field:account.config.settings,module_base_bank_account_number_unique:0
 msgid "Enforce unique account numbers on bank accounts"
 msgstr "Exigir números de cuenta únicos en cuentas bancarias"
@@ -134,6 +150,11 @@ msgid ""
 msgstr "Obtenga los extractos bancarios en formato electrónico de su banco y selecciónelos aquí."
 
 #. module: account_bank_statement_import
+#: field:account.bank.statement.import,hide_journal_field:0
+msgid "Hide the journal field in the view"
+msgstr "Oculta el campo diario en la vista"
+
+#. module: account_bank_statement_import
 #: view:account.bank.statement.import:account_bank_statement_import.account_bank_statement_import_view
 msgid "How to import your bank statement :"
 msgstr "Cómo importar su extracto bancario:"
@@ -142,6 +163,14 @@ msgstr "Cómo importar su extracto bancario:"
 #: field:account.bank.statement.import,id:0
 msgid "ID"
 msgstr "ID"
+
+#. module: account_bank_statement_import
+#: help:account.journal,enforce_sequence:0
+msgid ""
+"If checked, the Journal Sequence will determine the statement naming policy "
+"even if the name is already set manually or by the statement import "
+"software."
+msgstr ""
 
 #. module: account_bank_statement_import
 #: model:ir.actions.act_window,name:account_bank_statement_import.action_account_bank_statement_import
@@ -166,8 +195,14 @@ msgstr "Importar ID"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,journal_id:0
+#: model:ir.model,name:account_bank_statement_import.model_account_journal
 msgid "Journal"
 msgstr "Diario"
+
+#. module: account_bank_statement_import
+#: field:account.bank.statement.import,__last_update:0
+msgid "Last Modified on"
+msgstr "Última modificación el"
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,write_uid:0
@@ -185,52 +220,53 @@ msgid "Sanitized Account Number"
 msgstr "Número de cuenta validado"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:278
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:286
 #, python-format
 msgid "Statement currency id is %d, but company currency id = %d."
 msgstr "El identificador de divisa del extracto es %d, pero la divisa de la compañía es %d."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:264
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:269
 #, python-format
 msgid "Statement currency id is %d, but journal currency id = %d."
 msgstr "El identificador de divisa del extracto es %d, pero el identificador de divisa del diario es %d."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:219
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:223
 #, python-format
 msgid "Statement has invalid currency code %s"
 msgstr "El extracto tiene un código de divisa incorrecto: %s"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:247
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:252
 #, python-format
 msgid "The account of this statement is linked to another journal."
 msgstr "La cuenta de este extracto está enlazada a otro diario."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:283
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:291
 #, python-format
 msgid ""
-"The currency of the bank statement is not the same as the company currency !"
-msgstr "La divisa del extracto bancario no es la misma que la de la compañía."
+"The currency of the bank statement (%s) is not the same as the company "
+"currency (%s) !"
+msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:269
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:274
 #, python-format
 msgid ""
-"The currency of the bank statement is not the same as the currency of the "
-"journal !"
-msgstr "La moneda del extracto bancario no es la misma que la moneda del diario."
+"The currency of the bank statement (%s) is not the same as the currency of "
+"the journal %s (%s) !"
+msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:203
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:207
 #, python-format
 msgid "This file doesn't contain any statement."
 msgstr "Este archivo no contiene ningún extracto."
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:208
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:212
 #, python-format
 msgid "This file doesn't contain any transaction."
 msgstr "Este archivo no contiene ninguna transacción."

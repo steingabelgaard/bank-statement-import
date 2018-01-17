@@ -86,6 +86,8 @@ class AccountBankStatementImport(models.TransientModel):
         f.write(data_file.lstrip())
         f.seek(0)
         transactions = []
+        unique_ids = {}
+        notifications = []
         i = 0
         d = 0
         start_balance = end_balance = start_date_str = end_date_str = False
@@ -125,26 +127,70 @@ class AccountBankStatementImport(models.TransientModel):
                     d = 1
                 _logger.info('Procsessing line: %d', i)
                 try:
+                    partner = False
+                    ref = False
+                    txparts = line['Tekst'].split()
+                    if txparts:
+                        if len(txparts) > 1:
+                            # Add the whole text as search
+                            txparts.append(line['Tekst'])
+                            
+                        domain = []
+                        for t in txparts:
+                            if len(t) > 1:
+                                domain += [('name','=ilike', t), ('ref','=ilike', t)]
+                        domain = ['|'] * (len(domain) - 1) + domain
+                        partner = self.env['res.partner'].search(domain)
+                        for t in txparts:
+                            if '/' in t and len(t) > 3:
+                                ref = t
+                                break
+
+                    unique_import_id = "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    if unique_import_id in unique_ids:
+                        prev_line_no = unique_ids[unique_import_id]
+                        prev_line_id = unique_import_id
+                        unique_import_id = unique_import_id + '-%d' % i
+                        unique_ids_list = [prev_line_id,unique_import_id]
+                        notifications += [{
+                            'type': 'warning',
+                            'message': _("Line %d and %d are identical:\n%s %s %0.2f - Balance: %0.2f") % (prev_line_no,
+                                                                                                           i,
+                                                                                                           line[date_field].strip(),
+                                                                                                           line['Tekst'],
+                                                                                                           self._csv_convert_amount(line[u'Beløb']), 
+                                                                                                           self._csv_convert_amount(line[u'Saldo'])
+                                                                                                           ),
+                            'details': {
+                                'name': _('Identical imported items'),
+                                'model': 'account.bank.statement.line',
+                                'unique_ids': unique_ids_list,
+                                },
+                            }]
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
-                        'unique_import_id': "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'unique_import_id': unique_import_id,
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
-                        'ref' : self._csv_get_note(line),
+                        'note' : self._csv_get_note(line),
+                        'ref' : ref,
+                        'partner_id': partner[0].id if partner else False,
                         }
+                    unique_ids[unique_import_id] = i
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
                     _logger.info("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except:
+                    _logger.exception('Failed line %d', (i+1))
                     raise UserError(_('Format Error\nLine %d could not be processed') % (i + 1))
         except Exception as e:
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
-        if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
+        if start_date_str and datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
             #swap start / end
             _logger.debug("Swapper start/end: %s %s", end_balance, end_amount)
             swap_date = start_date_str
@@ -159,6 +205,7 @@ class AccountBankStatementImport(models.TransientModel):
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
+            'notifications': notifications,
         }
         _logger.debug("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]

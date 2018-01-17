@@ -69,7 +69,7 @@ class CamtParser(object):
                 './ns:RmtInf/ns:Ustrd',
                 './ns:AddtlTxInf',
                 './ns:AddtlNtryInf',
-            ], transaction, 'message')
+            ], transaction, 'message', join_str='\n')
         # eref
         self.add_value_from_node(
             ns, node, [
@@ -137,6 +137,13 @@ class CamtParser(object):
         if not transaction.message:
             self.add_value_from_node(
                 ns, node, './ns:AddtlNtryInf', transaction, 'message')
+        if not transaction.eref:
+            self.add_value_from_node(
+                ns, node, [
+                    './ns:NtryDtls/ns:Btch/ns:PmtInfId',
+                ],
+                transaction, 'eref'
+            )
         transaction.data = etree.tostring(node)
         return transaction
 
@@ -193,8 +200,12 @@ class CamtParser(object):
             transaction = statement.create_transaction()
             self.parse_transaction(ns, entry_node, transaction)
         if statement['transactions']:
-            statement.date = datetime.strptime(
-                statement['transactions'][0].execution_date, "%Y-%m-%d")
+            execution_date = statement['transactions'][0].execution_date
+            statement.date = datetime.strptime(execution_date, "%Y-%m-%d")
+            # Prepend date of first transaction to improve id uniquenes
+            if execution_date not in statement.statement_id:
+                statement.statement_id = "%s-%s" % (
+                    execution_date, statement.statement_id)
         return statement
 
     def check_version(self, ns, root):

@@ -7,7 +7,7 @@ from zipfile import ZipFile, BadZipfile  # BadZipFile in Python >= 3.2
 
 from openerp import api, models, fields
 from openerp.tools.translate import _
-from openerp.exceptions import Warning as UserError
+from openerp.exceptions import Warning as UserError, RedirectWarning
 
 _logger = logging.getLogger(__name__)  # pylint: disable=invalid-name
 
@@ -73,7 +73,7 @@ class AccountBankStatementImport(models.TransientModel):
         # dispatch to reconciliation interface
         action = self.env.ref(
             'account.action_bank_reconcile_bank_statements')
-        return {
+        rec_action = {
             'name': action.name,
             'tag': action.tag,
             'context': {
@@ -82,6 +82,24 @@ class AccountBankStatementImport(models.TransientModel):
             },
             'type': 'ir.actions.client',
         }
+        
+        if notifications:
+            return {
+                'type': 'ir.actions.act_window.message',
+                'title': _('Warning'),
+                'html': '<br/>'.join(
+                        '%(message)s' % notification
+                        for notification in notifications),
+                # optional title of the close button, if not set, will be _('Close')
+                # if set False, no close button will be shown
+                # you can create your own close button with an action of type
+                # ir.actions.act_window_close
+                'close_button_title': False,
+                # this is an optional list of buttons to show
+                'buttons': [rec_action]
+                }
+        else:
+            return rec_action
 
     @api.model
     def _parse_all_files(self, data_file):
@@ -147,6 +165,7 @@ class AccountBankStatementImport(models.TransientModel):
         account_number = stmt_vals.pop('account_number')
         # Try to find the bank account and currency in odoo
         currency_id = self._find_currency_id(currency_code)
+        _logger.info('CURRENCY: %s - %d', currency_code, currency_id)
         bank_account_id = self._find_bank_account_id(account_number)
         if not bank_account_id and account_number:
             raise UserError(
@@ -156,7 +175,11 @@ class AccountBankStatementImport(models.TransientModel):
         journal_id = self._get_journal(currency_id, bank_account_id)
         # By now journal and account_number must be known
         if not journal_id:
-            raise UserError(_('Can not determine journal for import.'))
+            raise UserError(
+                _('Can not determine journal for import'
+                  ' for account number %s and currency %s.') %
+                (account_number, currency_code)
+            )
         # Prepare statement data to be used for bank statements creation
         stmt_vals = self._complete_statement(
             stmt_vals, journal_id, account_number)
@@ -195,6 +218,15 @@ class AccountBankStatementImport(models.TransientModel):
                 -o 'note': string
                 -o 'partner_name': string
                 -o 'ref': string
+                -o 'partner_id': id of partner record
+            -o 'notifications': list of dicts containing:
+                - 'type': 'warning',
+                - 'message': string
+                - 'details': {
+                    'name': string
+                    'model': 'account.bank.statement.line',
+                    -o 'ids': list of records
+                    -o 'unique_ids': List of unique ID's, wil be converted to ids
         """
         raise UserError(_(
             'Could not make sense of the given file.\n'
@@ -244,6 +276,7 @@ class AccountBankStatementImport(models.TransientModel):
         bank_model = self.env['res.partner.bank']
         # Find the journal from context, wizard or bank account
         journal_id = self.env.context.get('journal_id') or self.journal_id.id
+        currency = self.env['res.currency'].browse(currency_id)
         if bank_account_id:
             bank_account = bank_model.browse(bank_account_id)
             if journal_id:
@@ -273,23 +306,26 @@ class AccountBankStatementImport(models.TransientModel):
                         journal_currency_id
                     )
                     raise UserError(_(
-                        'The currency of the bank statement is not '
-                        'the same as the currency of the journal !'
-                    ))
+                        'The currency of the bank statement (%s) is not '
+                        'the same as the currency of the journal %s (%s) !'
+                    ) % (
+                        currency.name,
+                        journal_obj.name,
+                        journal_obj.currency.name))
             else:
-                company_currency_id = self.env.user.company_id.currency_id.id
-                if currency_id != company_currency_id:
+                company_currency = self.env.user.company_id.currency_id
+                if currency_id != company_currency.id:
                     # ALso log message with id's for technical analysis:
                     _logger.warn(
                         _('Statement currency id is %d,'
                           ' but company currency id = %d.'),
                         currency_id,
-                        company_currency_id
+                        company_currency.id
                     )
                     raise UserError(_(
-                        'The currency of the bank statement is not '
-                        'the same as the company currency !'
-                    ))
+                        'The currency of the bank statement (%s) is not '
+                        'the same as the company currency (%s) !'
+                    ) % (currency.name, company_currency.name))
         return journal_id
 
     @api.model
@@ -334,7 +370,7 @@ class AccountBankStatementImport(models.TransientModel):
                     (account_number and account_number + '-' or '') +
                     unique_import_id
                 )
-            if not line_vals.get('bank_account_id'):
+            if not line_vals.get('bank_account_id') and not line_vals.get('partner_id'):
                 # Find the partner and his bank account or create the bank
                 # account. The partner selected during the reconciliation
                 # process will be linked to the bank when the statement is
@@ -355,6 +391,17 @@ class AccountBankStatementImport(models.TransientModel):
                         bank_account_id = bank_obj and bank_obj.id or False
                 line_vals['partner_id'] = partner_id
                 line_vals['bank_account_id'] = bank_account_id
+        if 'date' in stmt_vals and 'period_id' not in stmt_vals:
+            # if the parser found a date but didn't set a period for this date,
+            # do this now
+            try:
+                stmt_vals['period_id'] =\
+                    self.env['account.period']\
+                        .with_context(account_period_prefer_normal=True)\
+                        .find(dt=stmt_vals['date']).id
+            except RedirectWarning:
+                # if there's no period for the date, ignore resulting exception
+                pass
         return stmt_vals
 
     @api.model
@@ -393,6 +440,14 @@ class AccountBankStatementImport(models.TransientModel):
             statement_id = bs_model.create(stmt_vals).id
         # Prepare import feedback
         notifications = []
+        if 'notifications' in stmt_vals:
+            notifications = stmt_vals['notifications']
+            for notification in notifications:
+                if 'unique_ids' in notification:
+                    notification['ids'] = bsl_model.search(
+                            [('unique_import_id', 'in', notification['unique_ids'])]).ids
+                    del notification['unique_ids']
+                
         num_ignored = len(ignored_line_ids)
         if num_ignored > 0:
             notifications += [{
