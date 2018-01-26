@@ -6,42 +6,44 @@ msgstr ""
 "Project-Id-Version: Odoo Server 10.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-01-05 10:02+0000\n"
-"PO-Revision-Date: 2017-08-13 03:00+0000\n"
-"Last-Translator: Automatically generated\n"
-"Language-Team: none\n"
+"PO-Revision-Date: 2018-01-26 12:00+0000\n"
+"Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
+"Language-Team: Danish <http://weblate.steingabelgaard.dk/projects/bank-"
+"statement-import-10/account_bank_statement_import_auto_reconcile/da/>\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Generator: Weblate 2.17.1\n"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:45
 #, python-format
 msgid "%d transactions were reconciled automatically."
-msgstr ""
+msgstr "%d transaktioner blev udlignet automatisk."
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules_auto_reconcile
 msgid "Auto reconcile"
-msgstr ""
+msgstr "Afstem automatisk"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_rule
 msgid "Automatic reconciliation rule"
-msgstr ""
+msgstr "Automatisk afstemmingsregel"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_journal_statement_import_auto_reconcile_rule_ids
 msgid "Automatic reconciliation rules"
-msgstr ""
+msgstr "Automatisk afstemmingsregler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:48
 #, python-format
 msgid "Automatically reconciled"
-msgstr ""
+msgstr "Automatisk afstemt"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules_data_file
@@ -51,7 +53,7 @@ msgstr "Bank kontoudtogsfil"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile
 msgid "Base class for automatic reconciliation rules"
-msgstr ""
+msgstr "Basis klasse for automatisk afstemmings regler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.ui.view,arch_db:account_bank_statement_import_auto_reconcile.account_bank_statement_import_reapply_rules_form
@@ -61,7 +63,7 @@ msgstr "Annuller"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_case_sensitive
 msgid "Case sensitive matching"
-msgstr ""
+msgstr "Case-sensitiv matchning"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_create_uid
@@ -88,7 +90,7 @@ msgstr "Navn"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_exact_amount
 msgid "Exact partner, amount and reference"
-msgstr ""
+msgstr "Eksakt partner, beløb og reference"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,help:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules_data_file
@@ -143,7 +145,7 @@ msgstr "Sidst opdateret den"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_substring_match
 msgid "Match for substrings"
-msgstr ""
+msgstr "Match på del strenge"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_odoo
@@ -162,28 +164,28 @@ msgstr "Muligheder"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.actions.act_window,name:account_bank_statement_import_auto_reconcile.action_reapply_rules
 msgid "Reapply matching rules"
-msgstr ""
+msgstr "Gen-udfør afstemmings regler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.ui.view,arch_db:account_bank_statement_import_auto_reconcile.account_bank_statement_import_reapply_rules_form
 msgid "Reapply rules"
-msgstr ""
+msgstr "Genudfør regler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_rule.py:44
 #, python-format
 msgid "Reconciliation rules must be unique per journal"
-msgstr ""
+msgstr "Afstemmingsregler skal være unikke pr journal"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_bank_payment_line
 msgid "Ref is Bank Payment Line Ref"
-msgstr ""
+msgstr "Ref er betalingsordrens linie reference"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_rule_type
 msgid "Rule type"
-msgstr ""
+msgstr "Regel type"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.ui.view,arch_db:account_bank_statement_import_auto_reconcile.account_bank_statement_import_reapply_rules_form
@@ -191,6 +193,8 @@ msgid ""
 "This wizard will reapply the journal's matching rules on the selected bank "
 "statement(s)"
 msgstr ""
+"Denne guide vil gen udføre journalens afstemmings regler på de valgte bank "
+"kontoudtog"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,help:account_bank_statement_import_auto_reconcile.field_account_journal_statement_import_auto_reconcile_rule_ids
@@ -198,6 +202,8 @@ msgid ""
 "When importing a bank statement into this journal ,apply the following rules"
 " for automatic reconciliation"
 msgstr ""
+"Ved import af kontoudtog til denne journal udføres følgende regler for "
+"automatisk afstemming"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line_wizard_id
@@ -211,7 +217,7 @@ msgstr ""
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_reapply_rules.py:21
 #, python-format
 msgid "You can only reapply rules on statements with the same journal!"
-msgstr ""
+msgstr "Du kan kun gen-udføre regler på kontoudtog tilhørende samme journal!"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_reapply_rules
