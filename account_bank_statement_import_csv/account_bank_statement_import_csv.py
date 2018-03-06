@@ -200,13 +200,19 @@ class AccountBankStatementImport(models.TransientModel):
             end_balance = start_saldo 
 
         vals_bank_statement = {
-            'name': _('Import %s - %s')
-            % (start_date_str, end_date_str),
+            'name': _('%s/%s-%s')
+            % (self.journal_id.code, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
             'notifications': notifications,
         }
+        if end_date_str:
+            end_date = datetime.strptime(end_date_str, date_format)
+            vals_bank_statement['date'] = end_date
+            periods = self.env['account.period'].find(dt=end_date)
+            if periods:
+                vals_bank_statement['period_id'] = periods[0].id 
         _logger.debug("vals_stmt = %s" % vals_bank_statement)
         return None, None, [vals_bank_statement]
 
@@ -217,5 +223,3 @@ class AccountBankStatementLine(models.Model):
     _inherit = "account.bank.statement.line"
     
     line_balance = fields.Float(digits_compute=dp.get_precision('Account'))
-    
-
