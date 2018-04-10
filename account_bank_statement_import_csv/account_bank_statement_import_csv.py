@@ -96,6 +96,7 @@ class AccountBankStatementImport(models.TransientModel):
         # To confirm : is the encoding always latin1 ?
         date_format = False
         date_field = 'Dato'
+        journal = self.env['account.journal'].browse(self.env.context.get('journal_id', []))
         try:
             for line in unicodecsv.DictReader(
                     f, encoding=self._prepare_csv_encoding(), delimiter=';'):
@@ -145,7 +146,7 @@ class AccountBankStatementImport(models.TransientModel):
                                 ref = t
                                 break
 
-                    unique_import_id = "%d-%s-%s-%s-%s" % (self.journal_id.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    unique_import_id = "%d-%s-%s-%s-%s" % (journal.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
                     if unique_import_id in unique_ids:
                         prev_line_no = unique_ids[unique_import_id]
                         prev_line_id = unique_import_id
@@ -198,7 +199,7 @@ class AccountBankStatementImport(models.TransientModel):
 
         vals_bank_statement = {
             'name': _('%s/%s-%s')
-            % (self.journal_id.code, start_date_str, end_date_str),
+            % (journal.code, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
