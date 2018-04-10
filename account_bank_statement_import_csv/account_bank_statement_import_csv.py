@@ -28,6 +28,7 @@ import re
 from cStringIO import StringIO
 import hashlib
 from odoo.tools import ustr
+from odoo.addons.base.res.res_bank import sanitize_account_number
 
 import openerp.addons.decimal_precision as dp
 
