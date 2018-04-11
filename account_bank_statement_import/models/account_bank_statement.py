@@ -30,10 +30,10 @@ class AccountBankStatement(models.Model):
     def _compute_balance(self):
         for abs in self:
             ctx = {
-                'account_balance': True,
+                'date_from': '1900/01/01',
                 'date_to': abs.date,
                 }
-            values = abs.journal_id.default_debit_account_id.with_context(ctx)._compute_balance(['balance'])
+            values = abs.journal_id.default_debit_account_id.with_context(ctx)._account_account__compute(['balance'])
             bal = values[abs.journal_id.default_debit_account_id.id]['balance']
             abs.account_balance = bal
             abs.account_balance_red = bal

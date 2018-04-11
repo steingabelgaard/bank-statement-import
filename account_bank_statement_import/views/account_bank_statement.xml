@@ -8,7 +8,7 @@
             <field name="inherit_id" ref="account.view_bank_statement_form"/>
             <field name="arch" type="xml">
                 <field name="balance_end_real" position="after">
-                    <field name="account_balance_color" invisible="0"/>
+                    <field name="account_balance_color" invisible="1"/>
                     <field name="account_balance_label" nolabel="1" attrs="{'invisible': [('account_balance_color', '!=', False)]}"/>
                     <field name="account_balance" nolabel="1" attrs="{'invisible': [('account_balance_color', '!=', False)]}" widget="monetary" options="{'currency_field': 'currency'}"/>
                     <field name="account_balance_label_red" nolabel="1" attrs="{'invisible': [('account_balance_color', '=', False)]}" style="color: red;"/>
