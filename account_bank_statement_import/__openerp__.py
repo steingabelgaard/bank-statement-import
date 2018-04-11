@@ -10,6 +10,7 @@
     'depends': ['account'],
     'data': [
         'views/account_config_settings.xml',
+        'views/account_bank_statement.xml',
         'views/account_bank_statement_import_view.xml',
         'views/account_journal.xml',
     ],
