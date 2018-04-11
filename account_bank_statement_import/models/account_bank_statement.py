@@ -37,7 +37,7 @@ class AccountBankStatement(models.Model):
             bal = values[abs.journal_id.default_debit_account_id.id]['balance']
             abs.account_balance = bal
             abs.account_balance_red = bal
-            abs.account_balance_label = 'Balance pr %s for account %s' % (abs.date, abs.journal_id.default_debit_account_id.code)
-            abs.account_balance_label_red = 'Balance pr %s for account %s' % (abs.date, abs.journal_id.default_debit_account_id.code)
+            abs.account_balance_label = 'Balance pr %s for account %s' % (self.env.user.partner_id.format_date(abs.date), abs.journal_id.default_debit_account_id.code)
+            abs.account_balance_label_red = 'Balance pr %s for account %s' % (self.env.user.partner_id.format_date(abs.date), abs.journal_id.default_debit_account_id.code)
             abs.account_balance_color = bool(bal != abs.balance_end_real)
             _logger.info("BAL %s, val: %s", bool(bal != abs.balance_end_real), values)
