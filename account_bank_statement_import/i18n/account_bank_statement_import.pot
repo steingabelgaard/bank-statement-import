@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-02-05 14:30+0000\n"
-"PO-Revision-Date: 2016-02-05 14:30+0000\n"
+"POT-Creation-Date: 2018-04-12 06:46+0000\n"
+"PO-Revision-Date: 2018-04-12 06:46+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -16,13 +16,13 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:393
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:456
 #, python-format
 msgid "%d transactions had already been imported and were ignored."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:396
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:459
 #, python-format
 msgid "1 transaction had already been imported and was ignored."
 msgstr ""
@@ -48,12 +48,29 @@ msgid "A bank account transactions can be imported only once !"
 msgstr ""
 
 #. module: account_bank_statement_import
+#: field:account.bank.statement,account_balance_color:0
+msgid "Account Balance Color"
+msgstr ""
+
+#. module: account_bank_statement_import
+#: field:account.bank.statement,account_balance_label:0
+#: field:account.bank.statement,account_balance_label_red:0
+msgid "Account Balance Label"
+msgstr ""
+
+#. module: account_bank_statement_import
+#: field:account.bank.statement,account_balance:0
+#: field:account.bank.statement,account_balance_red:0
+msgid "Account balance"
+msgstr ""
+
+#. module: account_bank_statement_import
 #: help:account.bank.statement.import,journal_id:0
 msgid "Accounting journal related to the bank statement you're importing. It has be be manually chosen for statement formats which doesn't allow automatic journal detection (QIF for example)."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:399
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:462
 #, python-format
 msgid "Already imported items"
 msgstr ""
@@ -61,6 +78,11 @@ msgstr ""
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_res_partner_bank
 msgid "Bank Accounts"
+msgstr ""
+
+#. module: account_bank_statement_import
+#: model:ir.model,name:account_bank_statement_import.model_account_bank_statement
+msgid "Bank Statement"
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -79,13 +101,13 @@ msgid "Bank statement import"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:154
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:179
 #, python-format
-msgid "Can not determine journal for import."
+msgid "Can not determine journal for import for account number %s and currency %s."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:148
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:172
 #, python-format
 msgid "Can not find the account number %s."
 msgstr ""
@@ -96,7 +118,7 @@ msgid "Cancel"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:194
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:231
 #, python-format
 msgid "Could not make sense of the given file.\n"
 "Did you install the module to support this type of file?"
@@ -115,6 +137,11 @@ msgstr ""
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,display_name:0
 msgid "Display Name"
+msgstr ""
+
+#. module: account_bank_statement_import
+#: field:account.journal,enforce_sequence:0
+msgid "Enforce Sequence"
 msgstr ""
 
 #. module: account_bank_statement_import
@@ -148,6 +175,11 @@ msgid "ID"
 msgstr ""
 
 #. module: account_bank_statement_import
+#: help:account.journal,enforce_sequence:0
+msgid "If checked, the Journal Sequence will determine the statement naming policy even if the name is already set manually or by the statement import software."
+msgstr ""
+
+#. module: account_bank_statement_import
 #: model:ir.actions.act_window,name:account_bank_statement_import.action_account_bank_statement_import
 #: model:ir.ui.menu,name:account_bank_statement_import.menu_account_bank_statement_import
 msgid "Import"
@@ -170,6 +202,7 @@ msgstr ""
 
 #. module: account_bank_statement_import
 #: field:account.bank.statement.import,journal_id:0
+#: model:ir.model,name:account_bank_statement_import.model_account_journal
 msgid "Journal"
 msgstr ""
 
@@ -189,60 +222,72 @@ msgid "Last Updated on"
 msgstr ""
 
 #. module: account_bank_statement_import
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:68
+#, python-format
+msgid "Please verify that an account is defined in the journal."
+msgstr ""
+
+#. module: account_bank_statement_import
 #: field:res.partner.bank,sanitized_acc_number:0
 msgid "Sanitized Account Number"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:279
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:320
 #, python-format
 msgid "Statement currency id is %d, but company currency id = %d."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:265
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:303
 #, python-format
 msgid "Statement currency id is %d, but journal currency id = %d."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:220
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:257
 #, python-format
 msgid "Statement has invalid currency code %s"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:248
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:286
 #, python-format
 msgid "The account of this statement is linked to another journal."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:284
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:325
 #, python-format
-msgid "The currency of the bank statement is not the same as the company currency !"
+msgid "The currency of the bank statement (%s) is not the same as the company currency (%s) !"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:270
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:308
 #, python-format
-msgid "The currency of the bank statement is not the same as the currency of the journal !"
+msgid "The currency of the bank statement (%s) is not the same as the currency of the journal %s (%s) !"
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:204
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:241
 #, python-format
 msgid "This file doesn't contain any statement."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:209
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:246
 #, python-format
 msgid "This file doesn't contain any transaction."
 msgstr ""
 
 #. module: account_bank_statement_import
-#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:132
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:89
+#, python-format
+msgid "Warning"
+msgstr ""
+
+#. module: account_bank_statement_import
+#: code:addons/account_bank_statement_import/models/account_bank_statement_import.py:155
 #, python-format
 msgid "You have already imported that file."
 msgstr ""

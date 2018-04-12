@@ -6,7 +6,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-02-28 13:05+0000\n"
+"POT-Creation-Date: 2018-04-12 06:46+0000\n"
 "PO-Revision-Date: 2017-02-28 14:10+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,12 +18,18 @@ msgstr ""
 "X-Generator: Poedit 1.8.8\n"
 
 #. module: account_bank_statement_import_csv
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:203
+#, python-format
+msgid "%s/%s-%s"
+msgstr ""
+
+#. module: account_bank_statement_import_csv
 #: model:ir.model,name:account_bank_statement_import_csv.model_account_bank_statement_line
 msgid "Bank Statement Line"
 msgstr "Bank kontoudtogslinie"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:145
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:191
 #, python-format
 msgid ""
 "File parse error:\n"
@@ -33,7 +39,7 @@ msgstr ""
 "%s"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:143
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:189
 #, python-format
 msgid ""
 "Format Error\n"
@@ -43,10 +49,10 @@ msgstr ""
 "Linie %d kunne ikke behandles"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:156
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:165
 #, python-format
-msgid "Import %s - %s"
-msgstr "Import %s - %s"
+msgid "Identical imported items"
+msgstr ""
 
 #. module: account_bank_statement_import_csv
 #: model:ir.model,name:account_bank_statement_import_csv.model_account_bank_statement_import
@@ -54,6 +60,17 @@ msgid "Import Bank Statement"
 msgstr "Importer bank kontoudtog"
 
 #. module: account_bank_statement_import_csv
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:157
+#, python-format
+msgid ""
+"Line %d and %d are identical:\n"
+"%s %s %0.2f - Balance: %0.2f"
+msgstr ""
+
+#. module: account_bank_statement_import_csv
 #: field:account.bank.statement.line,line_balance:0
 msgid "Line balance"
 msgstr "Linie balance"
+
+#~ msgid "Import %s - %s"
+#~ msgstr "Import %s - %s"
