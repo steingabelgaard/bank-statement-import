@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Copyright 2009-2016 Noviat
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
-from openerp import api, models, fields
+from openerp import api, models, fields, _
 import openerp.addons.decimal_precision as dp
 
 import logging
@@ -37,7 +37,8 @@ class AccountBankStatement(models.Model):
             bal = values[abs.journal_id.default_debit_account_id.id]['balance']
             abs.account_balance = bal
             abs.account_balance_red = bal
-            abs.account_balance_label = 'Balance pr %s for account %s' % (self.env.user.partner_id.format_date(abs.date), abs.journal_id.default_debit_account_id.code)
-            abs.account_balance_label_red = 'Balance pr %s for account %s' % (self.env.user.partner_id.format_date(abs.date), abs.journal_id.default_debit_account_id.code)
+            label = _('Balance pr %s for account %s') % (self.env.user.partner_id.format_date(abs.date), abs.journal_id.default_debit_account_id.code)
+            abs.account_balance_label = label 
+            abs.account_balance_label_red = label
             abs.account_balance_color = bool(bal != abs.balance_end_real)
             _logger.info("BAL %s, val: %s", bool(bal != abs.balance_end_real), values)
