@@ -28,6 +28,7 @@ import re
 from cStringIO import StringIO
 import hashlib
 from odoo.tools import ustr
+from odoo.addons.base.res.res_bank import sanitize_account_number
 
 import openerp.addons.decimal_precision as dp
 
@@ -85,6 +86,8 @@ class AccountBankStatementImport(models.TransientModel):
         f.write(data_file.lstrip())
         f.seek(0)
         transactions = []
+        unique_ids = {}
+        notifications = []
         i = 0
         d = 0
         start_balance = end_balance = start_date_str = end_date_str = False
@@ -94,6 +97,7 @@ class AccountBankStatementImport(models.TransientModel):
         # To confirm : is the encoding always latin1 ?
         date_format = False
         date_field = 'Dato'
+        journal = self.env['account.journal'].browse(self.env.context.get('journal_id', []))
         try:
             for line in unicodecsv.DictReader(
                     f, encoding=self._prepare_csv_encoding(), delimiter=';'):
@@ -124,14 +128,56 @@ class AccountBankStatementImport(models.TransientModel):
                     d = 1
                 _logger.info('Procsessing line: %d', i)
                 try:
+                    partner = False
+                    ref = False
+                    txparts = line['Tekst'].split()
+                    if txparts:
+                        if len(txparts) > 1:
+                            # Add the whole text as search
+                            txparts.append(line['Tekst'])
+                            
+                        domain = []
+                        for t in txparts:
+                            if len(t) > 1:
+                                domain += [('name','=ilike', t), ('ref','=ilike', t)]
+                        domain = ['|'] * (len(domain) - 1) + domain
+                        partner = self.env['res.partner'].search(domain)
+                        for t in txparts:
+                            if '/' in t and len(t) > 3:
+                                ref = t
+                                break
+
+                    unique_import_id = "%d-%s-%s-%s-%s" % (journal.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    if unique_import_id in unique_ids:
+                        prev_line_no = unique_ids[unique_import_id]
+                        prev_line_id = unique_import_id
+                        unique_import_id = unique_import_id + '-%d' % i
+                        unique_ids_list = [prev_line_id,unique_import_id]
+                        notifications += [{
+                            'type': 'warning',
+                            'message': _("Line %d and %d are identical:\n%s %s %0.2f - Balance: %0.2f") % (prev_line_no,
+                                                                                                           i,
+                                                                                                           line[date_field].strip(),
+                                                                                                           line['Tekst'],
+                                                                                                           self._csv_convert_amount(line[u'Beløb']), 
+                                                                                                           self._csv_convert_amount(line[u'Saldo'])
+                                                                                                           ),
+                            'details': {
+                                'name': _('Identical imported items'),
+                                'model': 'account.bank.statement.line',
+                                'unique_ids': unique_ids_list,
+                                },
+                            }]
                     vals_line = {
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
-                        'unique_import_id': "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo']),
+                        'unique_import_id': unique_import_id,
                         'amount': self._csv_convert_amount(line[u'Beløb']),
                         'line_balance': self._csv_convert_amount(line[u'Saldo']),
                         'bank_account_id': False,
-                        'ref' : self._csv_get_note(line),
+                        'note' : self._csv_get_note(line),
+                        'ref' : ref,
+                        'partner_id': partner[0].id if partner else False,
                         }
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
@@ -141,6 +187,7 @@ class AccountBankStatementImport(models.TransientModel):
                 except Exception as e:
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
+            _logger.exception('Failed parse')
             raise UserError(_('File parse error:\n%s') % ustr(e))
         
         if datetime.strptime(start_date_str, date_format) > datetime.strptime(end_date_str, date_format):
@@ -152,11 +199,45 @@ class AccountBankStatementImport(models.TransientModel):
             end_balance = start_saldo 
 
         vals_bank_statement = {
-            'name': _('Import %s - %s')
-            % (start_date_str, end_date_str),
+            'name': _('%s/%s-%s')
+            % (journal.code, start_date_str, end_date_str),
             'balance_start': start_balance,
             'balance_end_real': end_balance,
             'transactions': transactions,
+            'notifications': notifications,
         }
         return None, None, [vals_bank_statement]
+    
+    def _complete_stmts_vals(self, stmts_vals, journal, account_number):
+        for st_vals in stmts_vals:
+            st_vals['journal_id'] = journal.id
+            if not st_vals.get('reference'):
+                st_vals['reference'] = self.filename
+            if st_vals.get('number'):
+                #build the full name like BNK/2016/00135 by just giving the number '135'
+                st_vals['name'] = journal.sequence_id.with_context(ir_sequence_date=st_vals.get('date')).get_next_char(st_vals['number'])
+                del(st_vals['number'])
+            for line_vals in st_vals['transactions']:
+                unique_import_id = line_vals.get('unique_import_id')
+                if unique_import_id:
+                    sanitized_account_number = sanitize_account_number(account_number)
+                    line_vals['unique_import_id'] = (sanitized_account_number and sanitized_account_number + '-' or '') + str(journal.id) + '-' + unique_import_id
+
+                if not line_vals.get('bank_account_id') and not line_vals.get('partner_id'):
+                    # Find the partner and his bank account or create the bank account. The partner selected during the
+                    # reconciliation process will be linked to the bank when the statement is closed.
+                    partner_id = False
+                    bank_account_id = False
+                    identifying_string = line_vals.get('account_number')
+                    if identifying_string:
+                        partner_bank = self.env['res.partner.bank'].search([('acc_number', '=', identifying_string)], limit=1)
+                        if partner_bank:
+                            bank_account_id = partner_bank.id
+                            partner_id = partner_bank.partner_id.id
+                        else:
+                            bank_account_id = self.env['res.partner.bank'].create({'acc_number': line_vals['account_number']}).id
+                    line_vals['partner_id'] = partner_id
+                    line_vals['bank_account_id'] = bank_account_id
+
+        return stmts_vals
 
