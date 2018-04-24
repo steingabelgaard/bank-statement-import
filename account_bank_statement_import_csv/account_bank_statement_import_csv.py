@@ -147,7 +147,7 @@ class AccountBankStatementImport(models.TransientModel):
                                 ref = t
                                 break
 
-                    unique_import_id = "%d-%s-%s-%s-%s" % (journal.id, line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    unique_import_id = "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
                     if unique_import_id in unique_ids:
                         prev_line_no = unique_ids[unique_import_id]
                         prev_line_id = unique_import_id
@@ -185,6 +185,7 @@ class AccountBankStatementImport(models.TransientModel):
                     _logger.debug("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except Exception as e:
+                    _logger.exception('Format Error: Line %d could not be processed', i + 1)
                     raise UserError(_('Format Error\nLine %d could not be processed\n%s') % (i + 1, ustr(e)))
         except Exception as e:
             _logger.exception('Failed parse')
