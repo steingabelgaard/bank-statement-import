@@ -6,14 +6,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-12 06:46+0000\n"
+"POT-Creation-Date: 2018-04-25 07:28+0000\n"
 "PO-Revision-Date: 2016-02-05 15:41+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Generator: Poedit 1.8.7\n"
 
@@ -72,8 +72,8 @@ msgstr ""
 #. module: account_bank_statement_import
 #: help:account.bank.statement.import,journal_id:0
 msgid ""
-"Accounting journal related to the bank statement you're importing. It has be"
-" be manually chosen for statement formats which doesn't allow automatic "
+"Accounting journal related to the bank statement you're importing. It has be "
+"be manually chosen for statement formats which doesn't allow automatic "
 "journal detection (QIF for example)."
 msgstr ""
 "Regnskabsjournal relateret til det kontoudtog, du importerer. Det skal "
@@ -85,6 +85,12 @@ msgstr ""
 #, python-format
 msgid "Already imported items"
 msgstr "Allerede importeret"
+
+#. module: account_bank_statement_import
+#: code:addons/account_bank_statement_import/models/account_bank_statement.py:40
+#, python-format
+msgid "Balance pr %s for account %s"
+msgstr ""
 
 #. module: account_bank_statement_import
 #: model:ir.model,name:account_bank_statement_import.model_res_partner_bank
@@ -137,7 +143,8 @@ msgid ""
 "Did you install the module to support this type of file?"
 msgstr ""
 "Kan ikke forstå den valgte fil.\n"
-"Formatet er en semikolon separeret fil med følgende felter (angivet i første linie):\n"
+"Formatet er en semikolon separeret fil med følgende felter (angivet i første "
+"linie):\n"
 "Dato eller Bogført\n"
 "Tekst\n"
 "Beløb\n"
@@ -205,8 +212,7 @@ msgstr "Id"
 #: help:account.journal,enforce_sequence:0
 msgid ""
 "If checked, the Journal Sequence will determine the statement naming policy "
-"even if the name is already set manually or by the statement import "
-"software."
+"even if the name is already set manually or by the statement import software."
 msgstr ""
 
 #. module: account_bank_statement_import
