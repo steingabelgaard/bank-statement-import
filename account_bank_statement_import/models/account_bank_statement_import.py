@@ -54,6 +54,7 @@ class AccountBankStatementImport(models.TransientModel):
         help='Get you bank statements in electronic format from your bank '
         'and select them here.')
     filename = fields.Char('Filename')
+    filename = fields.Char()
 
     @api.multi
     def import_file(self):
@@ -68,7 +69,8 @@ class AccountBankStatementImport(models.TransientModel):
                 raise UserError(_('Please verify that an account is defined in the journal.'))
         # pylint: disable=protected-access
         statement_ids, notifications = self.with_context(
-            active_id=self.id  # pylint: disable=no-member
+            active_id=self.id,  # pylint: disable=no-member
+            filename=self.filename
         )._import_file(data_file)
         # dispatch to reconciliation interface
         action = self.env.ref(
@@ -102,21 +104,27 @@ class AccountBankStatementImport(models.TransientModel):
             return rec_action
 
     @api.model
+    def unzip(self, data_file):
+        filename = self.env.context.get('filename')
+        if filename and filename.lower().endswith('.xlsx'):
+            return [data_file]
+        try:
+            with ZipFile(StringIO(data_file), 'r') as archive:
+                return [
+                    archive.read(name) for name in archive.namelist()
+                    if not name.endswith('/')
+                    ]
+        except BadZipfile:
+            return [data_file]
+
+    @api.model
     def _parse_all_files(self, data_file):
         """Parse one file or multiple files from zip-file.
 
         Return array of statements for further processing.
         """
         statements = []
-        files = [data_file]
-        try:
-            with ZipFile(StringIO(data_file), 'r') as archive:
-                files = [
-                    archive.read(filename) for filename in archive.namelist()
-                    if not filename.endswith('/')
-                    ]
-        except BadZipfile:
-            pass
+        files = self.unzip(data_file)
         # Parse the file(s)
         for import_file in files:
             # The appropriate implementation module(s) returns the statements.
