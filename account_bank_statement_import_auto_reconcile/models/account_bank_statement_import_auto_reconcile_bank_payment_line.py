@@ -40,16 +40,14 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
                 payment_aml_rec = (payment_aml_rec | aml)
             else:
                 amount = aml.currency_id and aml.amount_residual_currency or aml.amount_residual
-                if self._matches_amount(statement_line, amount < 0 and -amount or 0, amount > 0 and amount or 0):
+                if amount > 0:
                     counterpart_aml_dicts.append({
                         'name': aml.name if aml.name != '/' else aml.move_id.name,
                         'debit': amount < 0 and -amount or 0,
                         'credit': amount > 0 and amount or 0,
                         'move_line': aml
-                    })
-                else:
-                    return  # No partial payment auto processed
-
+                        })
+                
         _logger.info('COUNTERPART: %s', counterpart_aml_dicts)
         statement_line.process_reconciliation(counterpart_aml_dicts=counterpart_aml_dicts, payment_aml_rec=payment_aml_rec)
         return True
