@@ -18,6 +18,7 @@
         #"demo/account_bank_statement_import_auto_reconcile_rule.xml",
     ],
     "data": [
+        'views/account_reconcile_model.xml',
         "views/account_bank_statement_import_reapply_rules.xml",
         "views/account_bank_statement.xml",
         "views/account_bank_statement_import_auto_reconcile_exact_amount.xml",
