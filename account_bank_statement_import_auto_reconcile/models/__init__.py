@@ -9,3 +9,5 @@ from . import account_bank_statement_import
 from . import account_bank_statement_import_auto_reconcile_exact_amount
 from . import account_bank_statement_import_reapply_rules
 from . import account_bank_statement_import_auto_reconcile_bank_payment_line
+from . import account_reconcile_model
+from . import account_bank_statement_import_auto_reconcile_model
