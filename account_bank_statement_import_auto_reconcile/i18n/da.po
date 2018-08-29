@@ -30,6 +30,11 @@ msgid "Auto reconcile"
 msgstr "Afstem automatisk"
 
 #. module: account_bank_statement_import_auto_reconcile
+#: model:ir.ui.view,arch_db:account_bank_statement_import_auto_reconcile.account_reconcile_model_form_view
+msgid "Automatic match"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_rule
 msgid "Automatic reconciliation rule"
 msgstr "Automatisk afstemmingsregel"
@@ -81,6 +86,7 @@ msgstr "Oprettet den"
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line_display_name
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_display_name
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_display_name
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_model_display_name
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_odoo_display_name
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_display_name
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules_display_name
@@ -103,11 +109,19 @@ msgstr "Hent dine bank kontoudtog i elektronisk format og vælg dem her."
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_id
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_model_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_odoo_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules_id
 msgid "ID"
 msgstr "Id"
+
+#. module: account_bank_statement_import_auto_reconcile
+#: model:ir.model.fields,help:account_bank_statement_import_auto_reconcile.field_account_reconcile_model_match
+msgid ""
+"If the text is found on the statement line it will be auto reconciled using "
+"thsi setup"
+msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import
@@ -124,6 +138,7 @@ msgstr "Journal"
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile___last_update
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line___last_update
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount___last_update
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_model___last_update
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_odoo___last_update
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule___last_update
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_reapply_rules___last_update
@@ -148,6 +163,11 @@ msgid "Match for substrings"
 msgstr "Match på del strenge"
 
 #. module: account_bank_statement_import_auto_reconcile
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_reconcile_model_match
+msgid "Match text"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_odoo
 msgid "Odoo standard"
 msgstr ""
@@ -155,11 +175,18 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line_options
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_options
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_model_options
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_odoo_options
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_options
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_options
 msgid "Options"
 msgstr "Muligheder"
+
+#. module: account_bank_statement_import_auto_reconcile
+#: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_reconcile_model
+msgid ""
+"Preset to create journal entries during a invoices and payments matching"
+msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.actions.act_window,name:account_bank_statement_import_auto_reconcile.action_reapply_rules
@@ -197,10 +224,15 @@ msgstr ""
 "kontoudtog"
 
 #. module: account_bank_statement_import_auto_reconcile
+#: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_model
+msgid "Use reg-ex to find account.reconcile.model to use"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,help:account_bank_statement_import_auto_reconcile.field_account_journal_statement_import_auto_reconcile_rule_ids
 msgid ""
-"When importing a bank statement into this journal ,apply the following rules"
-" for automatic reconciliation"
+"When importing a bank statement into this journal ,apply the following rules "
+"for automatic reconciliation"
 msgstr ""
 "Ved import af kontoudtog til denne journal udføres følgende regler for "
 "automatisk afstemming"
@@ -208,6 +240,7 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_bank_payment_line_wizard_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_exact_amount_wizard_id
+#: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_model_wizard_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_odoo_wizard_id
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_wizard_id
 msgid "Wizard id"
