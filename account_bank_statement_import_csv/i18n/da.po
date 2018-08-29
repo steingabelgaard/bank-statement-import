@@ -19,13 +19,13 @@ msgstr ""
 "X-Generator: Weblate 2.17.1\n"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:202
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:203
 #, python-format
 msgid "%s/%s-%s"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:191
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:192
 #, python-format
 msgid ""
 "File parse error:\n"
@@ -35,7 +35,7 @@ msgstr ""
 "%s"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:188
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:189
 #, python-format
 msgid ""
 "Format Error\n"
