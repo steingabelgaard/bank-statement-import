@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2018 Stein & Gabelgaard ApS
+     License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record model="ir.ui.view" id="account_reconcile_model_form_view">
+        <field name="name">account.reconcile.model.form (in account_bank_statement_import_auto_reconcile)</field>
+        <field name="model">account.reconcile.model</field>
+        <field name="inherit_id" ref="account.view_account_reconcile_model_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[2]" position="after">
+                <group string="Automatic match">
+                    <field name="match"/> 
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+
+
+</odoo>
