@@ -9,10 +9,10 @@ msgstr ""
 "PO-Revision-Date: 2017-08-18 06:54+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
+"Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: da\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_bank_statement_import_move_line
@@ -53,9 +53,9 @@ msgstr ""
 #. module: account_bank_statement_import_move_line
 #: model:ir.ui.view,arch_db:account_bank_statement_import_move_line.account_statement_line_create_view_form
 msgid ""
-"Click on Add All Move Lines to auto-select the move lines matching the above"
-" criteria or click on Add an item to manually select the move lines filtered"
-" by the above criteria."
+"Click on Add All Move Lines to auto-select the move lines matching the above "
+"criteria or click on Add an item to manually select the move lines filtered "
+"by the above criteria."
 msgstr ""
 
 #. module: account_bank_statement_import_move_line
