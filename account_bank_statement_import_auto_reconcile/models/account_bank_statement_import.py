@@ -50,4 +50,16 @@ class AccountBankStatementImport(models.TransientModel):
                     'ids': auto_reconciled_ids,
                 },
             })
+        if statement.reject_ids:
+            notifications.append({
+                'type': 'warning',
+                'message':
+                _("%d transactions were rejected.") %
+                len(statement.reject_ids),
+                'details': {
+                    'name': _('Rejected payments'),
+                    'model': 'pbs.reject',
+                    'ids': statement.reject_ids.ids,
+                },
+            })
         return statement_id, notifications
