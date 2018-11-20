@@ -8,10 +8,9 @@ msgstr ""
 "POT-Creation-Date: 2018-01-05 10:02+0000\n"
 "PO-Revision-Date: 2018-09-12 10:24+0000\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
-"Language-Team: Danish <https://example.com/projects/"
-"bank-statement-import-10-0/"
-"bank-statement-import-10-0-account_bank_statement_import_auto_reconcile/da/>"
-"\n"
+"Language-Team: Danish <https://example.com/projects/bank-statement-"
+"import-10-0/bank-statement-import-10-0-"
+"account_bank_statement_import_auto_reconcile/da/>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -20,9 +19,21 @@ msgstr ""
 "X-Generator: Weblate 3.0.1\n"
 
 #. module: account_bank_statement_import_auto_reconcile
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_bank_payment_line.py:33
+#, python-format
+msgid " - Rejected"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:45
 #, python-format
 msgid "%d transactions were reconciled automatically."
+msgstr "%d transaktioner blev udlignet automatisk."
+
+#. module: account_bank_statement_import_auto_reconcile
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:57
+#, fuzzy, python-format
+msgid "%d transactions were rejected."
 msgstr "%d transaktioner blev udlignet automatisk."
 
 #. module: account_bank_statement_import_auto_reconcile
@@ -212,6 +223,12 @@ msgstr "Afstemmingsregler skal være unikke pr journal"
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_bank_payment_line
 msgid "Ref is Bank Payment Line Ref"
 msgstr "Ref er betalingsordrens linie reference"
+
+#. module: account_bank_statement_import_auto_reconcile
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:60
+#, python-format
+msgid "Rejected payments"
+msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model.fields,field_description:account_bank_statement_import_auto_reconcile.field_account_bank_statement_import_auto_reconcile_rule_rule_type
