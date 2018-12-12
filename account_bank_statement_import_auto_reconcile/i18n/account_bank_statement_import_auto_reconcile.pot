@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_bank_payment_line.py:33
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_bank_payment_line.py:34
 #, python-format
 msgid " - Rejected"
 msgstr ""
