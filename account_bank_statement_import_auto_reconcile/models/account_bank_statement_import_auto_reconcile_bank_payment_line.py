@@ -45,6 +45,9 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
             if reject:
                 statement_line.unlink()
             return True
+        
+        if not bnkl:
+            return
                 
         if statement_line.amount < bnkl[0].amount_company_currency:
             return
