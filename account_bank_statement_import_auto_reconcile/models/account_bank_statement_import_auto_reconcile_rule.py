@@ -118,7 +118,7 @@ class AccountBankStatementImportAutoReconcileRule(models.Model):
                     # TODO: merging modifiers would be better
                     del field.attrib['modifiers']
      
-                for key, value in fields_view['fields'].iteritems():
+                for key, value in fields_view['fields'].items():
                     result['fields'][key] = dict(value, readonly=False)
      
             result['arch'] = etree.tostring(arch)
