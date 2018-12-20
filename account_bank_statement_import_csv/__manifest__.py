@@ -42,8 +42,10 @@ Optional fields (goes into the ref field)
  - Egen bilagsreference
  """,
 
-    'depends': ['account_bank_statement_import'],
-    'external_dependencies': {'python': ['unicodecsv']},
+    'depends': [
+        'account_bank_statement_import'
+        ],
+    
     'data': [],
     'installable': True,
 }
