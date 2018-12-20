@@ -23,9 +23,9 @@ import logging
 from datetime import datetime
 from openerp import models, fields, api, _
 from odoo.exceptions import UserError
-import unicodecsv
+import csv
 import re
-from cStringIO import StringIO
+from io import StringIO
 import hashlib
 from odoo.tools import ustr
 from odoo.addons.base.res.res_bank import sanitize_account_number
@@ -76,14 +76,14 @@ class AccountBankStatementImport(models.TransientModel):
             if f in line:
                 fields.append(line[f])
         if fields:
-            note = ' '.join(filter(None, fields))
+            note = ' '.join([_f for _f in fields if _f])
         return note
     
     def _parse_file(self, data_file):
         """ Import a file in Danish Bank CSV format"""
         
         f = StringIO()
-        f.write(data_file.lstrip())
+        f.write(data_file.decode('iso-8859-1').lstrip())
         f.seek(0)
         transactions = []
         unique_ids = {}
@@ -99,18 +99,18 @@ class AccountBankStatementImport(models.TransientModel):
         date_field = 'Dato'
         journal = self.env['account.journal'].browse(self.env.context.get('journal_id', []))
         try:
-            for line in unicodecsv.DictReader(
-                    f, encoding=self._prepare_csv_encoding(), delimiter=';'):
+            for line in csv.DictReader(
+                    f, delimiter=';'):
                 
                 
                 i += 1
                 
                 if i == 1:
                     # verify file format
-                    _logger.info("KEYS: %s", line.keys())
-                    if u'Bogført' in line.keys():
-                        date_field = u'Bogført'
-                    if not set([date_field, 'Tekst', 'Saldo', u'Beløb']).issubset(line.keys()):
+                    _logger.info("KEYS: %s", list(line.keys()))
+                    if 'Bogført' in list(line.keys()):
+                        date_field = 'Bogført'
+                    if not set([date_field, 'Tekst', 'Saldo', 'Beløb']).issubset(list(line.keys())):
                         return super(AccountBankStatementImport, self)._parse_file(data_file)
                     if not date_format:
                         date_format = self._prepare_csv_date_format(line[date_field].strip())
@@ -118,8 +118,8 @@ class AccountBankStatementImport(models.TransientModel):
                     start_date_str = line[date_field].strip() 
                     date_dt = datetime.strptime(
                     line[date_field].strip(), date_format)
-                    start_saldo = self._csv_convert_amount(line[u'Saldo'].strip())
-                    start_amount = self._csv_convert_amount(line[u'Beløb'].strip())
+                    start_saldo = self._csv_convert_amount(line['Saldo'].strip())
+                    start_amount = self._csv_convert_amount(line['Beløb'].strip())
                     start_balance =  start_saldo - start_amount 
                      
                 if end_date_str == line[date_field].strip():
@@ -147,7 +147,7 @@ class AccountBankStatementImport(models.TransientModel):
                                 ref = t
                                 break
 
-                    unique_import_id = "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line[u'Beløb'], line[u'Saldo'])
+                    unique_import_id = "%s-%s-%s-%s" % (line[date_field].strip(), line['Tekst'], line['Beløb'], line['Saldo'])
                     if unique_import_id in unique_ids:
                         prev_line_no = unique_ids[unique_import_id]
                         prev_line_id = unique_import_id
@@ -159,8 +159,8 @@ class AccountBankStatementImport(models.TransientModel):
                                                                                                            i,
                                                                                                            line[date_field].strip(),
                                                                                                            line['Tekst'],
-                                                                                                           self._csv_convert_amount(line[u'Beløb']), 
-                                                                                                           self._csv_convert_amount(line[u'Saldo'])
+                                                                                                           self._csv_convert_amount(line['Beløb']), 
+                                                                                                           self._csv_convert_amount(line['Saldo'])
                                                                                                            ),
                             'details': {
                                 'name': _('Identical imported items'),
@@ -172,16 +172,16 @@ class AccountBankStatementImport(models.TransientModel):
                         'date': datetime.strptime(line[date_field].strip(), date_format),
                         'name': line['Tekst'],
                         'unique_import_id': unique_import_id,
-                        'amount': self._csv_convert_amount(line[u'Beløb']),
-                        'line_balance': self._csv_convert_amount(line[u'Saldo']),
+                        'amount': self._csv_convert_amount(line['Beløb']),
+                        'line_balance': self._csv_convert_amount(line['Saldo']),
                         'bank_account_id': False,
                         'note' : self._csv_get_note(line),
                         'ref' : ref,
                         'partner_id': partner[0].id if partner else False,
                         }
                     end_date_str = line[date_field].strip()
-                    end_balance = self._csv_convert_amount(line[u'Saldo'])
-                    end_amount = self._csv_convert_amount(line[u'Beløb'])
+                    end_balance = self._csv_convert_amount(line['Saldo'])
+                    end_amount = self._csv_convert_amount(line['Beløb'])
                     _logger.debug("vals_line = %s" % vals_line)
                     transactions.append(vals_line)
                 except Exception as e:
