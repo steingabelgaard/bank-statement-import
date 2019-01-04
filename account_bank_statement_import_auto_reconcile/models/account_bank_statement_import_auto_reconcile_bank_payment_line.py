@@ -47,13 +47,13 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
             return True
         
         if not bnkl:
-            return False
+            return
         
         if len(bnkl) > 1:
-            return False
+            return
                 
         if not (float_compare(
-                statement_line.amount, bnkl[0].amount_company_currency,
+                statement_line.amount, bnkl.amount_company_currency,
                 precision_digits=self._digits
             ) == 0):
             return
