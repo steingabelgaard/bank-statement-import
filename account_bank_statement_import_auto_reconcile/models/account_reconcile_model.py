@@ -6,7 +6,7 @@ from openerp import api, fields, models, _
 
 
 class AccountReconcileModel(models.Model):
-
-    _inherit = 'account.reconcile.model'
+    # In v10 + this model is account.reconcile.model
+    _inherit = 'account.statement.operation.template'
     
     match = fields.Char('Match text', help='If the text is found on the statement line it will be auto reconciled using thsi setup')
