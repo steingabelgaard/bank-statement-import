@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 # © 2017 Therp BV <http://therp.nl>
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl.html).
-from odoo import api, fields, models
+from openerp import api, fields, models
 
-import odoo.addons.decimal_precision as dp
+import openerp.addons.decimal_precision as dp
 
 import logging
 _logger = logging.getLogger(__name__)
