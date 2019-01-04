@@ -55,7 +55,7 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
         if not (float_compare(
                 statement_line.amount, bnkl[0].amount_company_currency,
                 precision_digits=self._digits
-            ) == 0)
+            ) == 0):
             return
 
         counterpart_aml_dicts = []
