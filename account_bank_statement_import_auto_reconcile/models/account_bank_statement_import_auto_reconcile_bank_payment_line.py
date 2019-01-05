@@ -4,6 +4,7 @@
 from odoo import api, fields, models, _
 
 import odoo.addons.decimal_precision as dp
+from odoo.tools import float_compare
 
 import logging
 _logger = logging.getLogger(__name__)
