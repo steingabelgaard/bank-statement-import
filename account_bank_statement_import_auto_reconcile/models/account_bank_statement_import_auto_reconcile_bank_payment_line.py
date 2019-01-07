@@ -4,6 +4,7 @@
 from openerp import api, fields, models, _
 
 import openerp.addons.decimal_precision as dp
+from openerp.tools import float_compare
 
 import logging
 _logger = logging.getLogger(__name__)
@@ -49,12 +50,20 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
         if not bnkl:
             return
                 
-        if statement_line.amount < bnkl[0].amount_company_currency:
+        if len(bnkl) > 1:
             return
+                
+        if not (float_compare(
+                statement_line.amount, bnkl.amount_company_currency,
+                precision_digits=self._digits
+            ) == 0):
 
         counterpart_aml_dicts = []
         payment_aml_rec = self.env['account.move.line']
         for payl in bnkl.payment_line_ids:
+            if aml.reconcile_id:
+                return  # If one or more of the payments lines is payed - Skip this bank statement line
+                
             aml = payl.move_line_id
             if aml.account_id.internal_type == 'liquidity':
                 payment_aml_rec = (payment_aml_rec | aml)
@@ -69,5 +78,5 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
                         })
                 
         _logger.info('COUNTERPART: %s', counterpart_aml_dicts)
-        statement_line.process_reconciliation(counterpart_aml_dicts=counterpart_aml_dicts, payment_aml_rec=payment_aml_rec)
+        statement_line.process_reconciliation(counterpart_aml_dicts)
         return True
