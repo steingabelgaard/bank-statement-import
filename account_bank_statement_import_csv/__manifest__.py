@@ -44,6 +44,8 @@ Optional fields (goes into the ref field)
 
     'depends': ['account_bank_statement_import'],
     'external_dependencies': {'python': ['unicodecsv']},
-    'data': [],
+    'data': [
+        'views/account_bank_statement_import_csv_view.xml',
+        ],
     'installable': True,
 }
