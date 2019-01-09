@@ -57,6 +57,7 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
                 statement_line.amount, bnkl.amount_company_currency,
                 precision_digits=self._digits
             ) == 0):
+            return
 
         counterpart_aml_dicts = []
         payment_aml_rec = self.env['account.move.line']
