@@ -20,6 +20,11 @@ msgid "%s/%s-%s"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
+#: model:ir.ui.view,arch_db:account_bank_statement_import_csv.account_bank_statement_import_view
+msgid "CSV file. Supported fields: Dato, Bogført, Tekst, Beløb, Saldo"
+msgstr ""
+
+#. module: account_bank_statement_import_csv
 #: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:192
 #, python-format
 msgid "File parse error:\n"
