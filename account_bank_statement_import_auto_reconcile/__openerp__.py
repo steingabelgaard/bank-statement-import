@@ -13,6 +13,7 @@
         'account_bank_statement_import',
         'web_widget_one2many_tags',
         'base_domain_operator',
+        'account_statement_operation_multicompany',
     ],
     "demo": [
         "demo/account_bank_statement_import_auto_reconcile_rule.xml",
