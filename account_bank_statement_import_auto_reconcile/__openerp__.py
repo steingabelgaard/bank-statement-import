@@ -12,7 +12,7 @@
     "depends": [
         'account_bank_statement_import',
         'web_widget_one2many_tags',
-        'base_domain_operator',
+        #'base_domain_operator',
         'account_statement_operation_multicompany',
     ],
     "demo": [
