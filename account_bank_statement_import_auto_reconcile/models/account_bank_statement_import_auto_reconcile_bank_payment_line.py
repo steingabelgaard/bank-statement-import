@@ -54,7 +54,7 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
             return
                 
         if not (float_compare(
-                statement_line.amount, bnkl.amount_company_currency,
+                statement_line.amount, bnkl.amount_currency,
                 precision_digits=self._digits
             ) == 0):
             return
@@ -62,22 +62,25 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
         counterpart_aml_dicts = []
         payment_aml_rec = self.env['account.move.line']
         for payl in bnkl.payment_line_ids:
+            aml = payl.move_line_id
             if aml.reconcile_id:
                 return  # If one or more of the payments lines is payed - Skip this bank statement line
                 
-            aml = payl.move_line_id
-            if aml.account_id.internal_type == 'liquidity':
+            
+            if aml.account_id.type == 'liquidity':
                 payment_aml_rec = (payment_aml_rec | aml)
             else:
                 amount = aml.currency_id and aml.amount_residual_currency or aml.amount_residual
                 if amount > 0:
-                    counterpart_aml_dicts.append({
-                        'name': aml.name if aml.name != '/' else aml.move_id.name,
-                        'debit': amount < 0 and -amount or 0,
-                        'credit': amount > 0 and amount or 0,
-                        'move_line': aml
-                        })
+                    move_line_dict = self.env['account.bank.statement']\
+                        ._prepare_bank_move_line(
+                            statement_line, aml.id, amount,
+                            statement_line.statement_id.company_id.currency_id.id,
+                        )
+                    move_line_dict['counterpart_move_line_id'] = aml.id
+                    counterpart_aml_dicts.append(move_line_dict)
                 
         _logger.info('COUNTERPART: %s', counterpart_aml_dicts)
-        statement_line.process_reconciliation(counterpart_aml_dicts)
+        _logger.info('statement_line: %s', statement_line)
+        self.pool.get('account.bank.statement.line').process_reconciliation(statement_line._cr, statement_line._uid, statement_line.id, counterpart_aml_dicts, context=statement_line._context)
         return True
