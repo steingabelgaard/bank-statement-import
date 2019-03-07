@@ -21,9 +21,11 @@ class AccountBankStatementImportAutoReconcileExactAmount(models.AbstractModel):
             return
 
         operator = '=ilike'
-        if self.substring_match:
-            operator = 'substring_of'
-        elif self.case_sensitive:
+        # substring disabled as base_domain_operator conflicts with stored_procedure_operator
+        #if self.substring_match:
+        #    operator = 'substring_of'
+        #el
+        if self.case_sensitive:
             operator = '=like'
 
         amount_field = 'debit'
