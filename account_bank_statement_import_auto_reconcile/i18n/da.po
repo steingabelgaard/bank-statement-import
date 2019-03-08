@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-04-12 06:46+0000\n"
-"PO-Revision-Date: 2018-04-12 06:46+0000\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: 2019-03-08 09:12+0100\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
 "Language: da\n"
@@ -15,6 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_bank_payment_line.py:35
@@ -107,7 +108,7 @@ msgstr "Navn"
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_exact_amount
 msgid "Exact partner, amount and reference"
-msgstr ""
+msgstr "Eksakt partner, beløb og reference"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: field:account.bank.statement.import.reapply.rules,filename:0
@@ -188,7 +189,7 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: field:account.statement.operation.template,match:0
 msgid "Match text"
-msgstr ""
+msgstr "Match tekst"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_odoo
@@ -214,12 +215,12 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.actions.act_window,name:account_bank_statement_import_auto_reconcile.action_reapply_rules
 msgid "Reapply matching rules"
-msgstr ""
+msgstr "Gen-kør matchende regler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: view:account.bank.statement.import.reapply.rules:account_bank_statement_import_auto_reconcile.account_bank_statement_import_reapply_rules_form
 msgid "Reapply rules"
-msgstr ""
+msgstr "Gen-kør regler"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_auto_reconcile_rule.py:40
@@ -230,12 +231,12 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_bank_payment_line
 msgid "Ref is Bank Payment Line Ref"
-msgstr ""
+msgstr "Ref er betalingsordre linie reference"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: field:account.bank.statement.import.auto.reconcile.rule,rule_type:0
 msgid "Rule type"
-msgstr ""
+msgstr "Regel type"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: view:account.bank.statement.import.reapply.rules:account_bank_statement_import_auto_reconcile.account_bank_statement_import_reapply_rules_form
@@ -243,11 +244,13 @@ msgid ""
 "This wizard will reapply the journal's matching rules on the selected bank "
 "statement(s)"
 msgstr ""
+"Denne guide vil gen-køre journalens automatiske regler for de valgte bank "
+"kontoudtog"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_model
 msgid "Use reg-ex to find account.reconcile.model to use"
-msgstr ""
+msgstr "Anvend regulære udtryk for at matche operationen til at anvende"
 
 #. module: account_bank_statement_import_auto_reconcile
 #: help:account.journal,statement_import_auto_reconcile_rule_ids:0
