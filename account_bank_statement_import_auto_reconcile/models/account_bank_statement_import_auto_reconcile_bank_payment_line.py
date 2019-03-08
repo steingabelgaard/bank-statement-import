@@ -74,7 +74,7 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
                 if amount > 0:
                     move_line_dict = self.env['account.bank.statement']\
                         ._prepare_bank_move_line(
-                            statement_line, aml.id, amount,
+                            statement_line, aml.id, -amount,
                             statement_line.statement_id.company_id.currency_id.id,
                         )
                     move_line_dict['counterpart_move_line_id'] = aml.id
