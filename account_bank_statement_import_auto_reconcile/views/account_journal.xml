@@ -6,7 +6,7 @@
             <field name="inherit_id" ref="account.view_account_journal_form" />
             <field name="arch" type="xml">
                 <field name="default_credit_account_id" position="after">
-                    <field name="statement_import_auto_reconcile_rule_ids" widget="one2many_tags" />
+                    <field name="statement_import_auto_reconcile_rule_ids" />
                 </field>
             </field>
         </record>
