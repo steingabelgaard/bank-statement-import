@@ -11,7 +11,7 @@
     "reconciliation rules to be run after a bank statement is imported",
     "depends": [
         'account_bank_statement_import',
-        'web_widget_one2many_tags',
+        #'web_widget_one2many_tags',
         #'base_domain_operator',
         'account_statement_operation_multicompany',
     ],
