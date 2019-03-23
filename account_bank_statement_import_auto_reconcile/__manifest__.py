@@ -28,4 +28,5 @@
         "views/account_bank_statement_import_auto_reconcile_rule.xml",
         'security/ir.model.access.csv',
     ],
+    'installable': False,
 }
