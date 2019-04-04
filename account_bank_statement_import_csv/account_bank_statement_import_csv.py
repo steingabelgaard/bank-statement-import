@@ -28,7 +28,7 @@ import re
 from cStringIO import StringIO
 import hashlib
 from odoo.tools import ustr
-from odoo.addons.base.res.res_bank import sanitize_account_number
+#from odoo.addons.base.res.res_bank import sanitize_account_number
 
 import openerp.addons.decimal_precision as dp
 
@@ -221,7 +221,7 @@ class AccountBankStatementImport(models.TransientModel):
             for line_vals in st_vals['transactions']:
                 unique_import_id = line_vals.get('unique_import_id')
                 if unique_import_id:
-                    sanitized_account_number = sanitize_account_number(account_number)
+                    sanitized_account_number = account_number
                     line_vals['unique_import_id'] = (sanitized_account_number and sanitized_account_number + '-' or '') + str(journal.id) + '-' + unique_import_id
 
                 if not line_vals.get('bank_account_id') and not line_vals.get('partner_id'):
