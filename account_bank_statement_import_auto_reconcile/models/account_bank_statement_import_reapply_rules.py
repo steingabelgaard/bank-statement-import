@@ -4,6 +4,8 @@
 from openerp import _, api, fields, models
 from openerp.exceptions import Warning as UserError
 
+import logging
+_logger = logging.getLogger(__name__)
 
 class AccountBankStatementImportReapplyRules(models.TransientModel):
     _inherit = 'account.bank.statement.import'
@@ -24,17 +26,16 @@ class AccountBankStatementImportReapplyRules(models.TransientModel):
             ))
 
         self.write({'journal_id': journal.id})
-        reconcile_rules = journal.statement_import_auto_reconcile_rule_ids\
-            .mapped(lambda x: self.env[x.rule_type].new({
-                'wizard_id': self.id,
-                'options': x.options
-            }))
-
+        #reconcile_rules = journal.statement_import_auto_reconcile_rule_ids\
+        #    .get_rules()
+        #     _logger.info('Rules: %s', len(reconcile_rules))
         for line in self.env['account.bank.statement.line'].search([
                 ('statement_id', 'in', statements.ids),
                 ('journal_entry_id', '=', False),
         ]):
-            for rule in reconcile_rules:
-                if rule.reconcile(line):
+            for rule in journal.statement_import_auto_reconcile_rule_ids:
+                _logger.info('Line %s rule: %s', line, rule._name)
+                if self.env[rule.rule_type].reconcile(line):
+                    _logger.info('BREAK Line %s rule: %s', line, rule)
                     break
         return {'type': 'ir.actions.act_window_close'}

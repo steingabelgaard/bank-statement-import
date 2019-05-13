@@ -139,3 +139,20 @@ class AccountBankStatementImportAutoReconcileRule(models.Model):
             if field_name in values:
                 options[field_name] = values.pop(field_name)
         values['options'] = options
+        
+    @api.multi
+    def get_rules(self):
+        """Return a NewId object for the configured rule"""
+        rules = [
+            lambda x: self.env[x.rule_type].new(dict(
+                self.env[x.rule_type].default_get(
+                    self.env[x.rule_type]._fields.keys()
+                ),
+                wizard_id=self.id,
+                options=x.options,
+            ))
+            if x else None for x in self]
+        
+        for rule in rules:
+            rule.update(rule.options)
+        return rules

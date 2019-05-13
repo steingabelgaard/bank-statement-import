@@ -63,7 +63,8 @@ class AccountBankStatementImportAutoReconcile(models.AbstractModel):
                 statement_line.statement_id.company_id.currency_id.id,
             )
         move_line_dict['counterpart_move_line_id'] = move_line_id
-        statement_line.process_reconciliation([move_line_dict])
+        self.pool.get('account.bank.statement.line').process_reconciliation(statement_line._cr, statement_line._uid, statement_line.id, [move_line_dict], context=statement_line._context)
+        #statement_line.process_reconciliation([move_line_dict])
 
     @api.multi
     def reconcile(self, statement_line):

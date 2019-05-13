@@ -24,17 +24,12 @@ class AccountBankStatementImport(models.TransientModel):
                 .statement_import_auto_reconcile_rule_ids
         ):
             return statement_id, notifications
-        reconcile_rules = statement.journal_id\
-            .statement_import_auto_reconcile_rule_ids.mapped(
-                lambda x: self.env[x.rule_type].new({
-                    'wizard_id': self.id,
-                    'options': x.options
-                })
-            )
+        #reconcile_rules = statement.journal_id\
+        #    .statement_import_auto_reconcile_rule_ids.get_rules()
         auto_reconciled_ids = []
         for line in statement.line_ids:
-            for rule in reconcile_rules:
-                if rule.reconcile(line):
+            for rule in statement.journal_id.statement_import_auto_reconcile_rule_ids:
+                if self.env[rule.rule_type].reconcile(line):
                     auto_reconciled_ids.append(line.id)
                     break
         if auto_reconciled_ids:

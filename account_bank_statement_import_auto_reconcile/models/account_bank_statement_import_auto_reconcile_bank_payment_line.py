@@ -29,20 +29,23 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
         bnkl = self.env['bank.payment.line'].search([('name', '=', statement_line.ref)])
         if not statement_line.partner_id and len(bnkl) == 1:
             statement_line.partner_id = bnkl[0].partner_id
-        _logger.info('BNKL %s', bnkl)
+        _logger.info('BNKL %s %d', bnkl, bnkl[0].id)
         
         _logger.info('STM: %s %s', statement_line.amount, statement_line.name)
         if statement_line.amount == 0.0 and (_(' - Rejected') in statement_line.name or 'Afvist' in statement_line.name or '- Annulleret' in statement_line.name or '- Cancelled' in statement_line.name):
-            reject = self.env['pbs.reject'].create({'statement_id': statement_line.statement_id.id,
-                                                   'name': statement_line.name,
-                                                   'date': statement_line.date,
-                                                   'amount': statement_line.amount,
-                                                   'partner_id': statement_line.partner_id.id,
-                                                   'partner_name': statement_line.partner_name,
-                                                   'ref': statement_line.ref,
-                                                   'note': statement_line.note,
-                                                   'amount_currency': statement_line.amount_currency,
-                                                   'bank_payment_line_id': bnkl[0].id if bnkl else False})
+            vals = {'statement_id': statement_line.statement_id.id,
+                    'name': statement_line.name,
+                    'date': statement_line.date,
+                    'amount': statement_line.amount,
+                    'partner_id': statement_line.partner_id.id,
+                    'partner_name': statement_line.partner_name,
+                    'ref': statement_line.ref,
+                    'note': statement_line.note,
+                    'amount_currency': statement_line.amount_currency,
+                    'bank_payment_line_id': bnkl[0].id if bnkl else False,
+                    }
+            _logger.info('VALS: %s', vals)
+            reject = self.env['pbs.reject'].create(vals)
             if reject:
                 statement_line.unlink()
             return True

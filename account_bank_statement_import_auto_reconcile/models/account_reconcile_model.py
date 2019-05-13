@@ -10,3 +10,4 @@ class AccountReconcileModel(models.Model):
     _inherit = 'account.statement.operation.template'
     
     match = fields.Char('Match text', help='If the text is found on the statement line it will be auto reconciled using thsi setup')
+    journal_id = fields.Many2one('account.journal', 'Journal')

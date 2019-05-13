@@ -17,11 +17,11 @@ class AccountBankStatementImportAutoReconcileModel(models.AbstractModel):
 
     @api.multi
     def reconcile(self, statement_line):
-        _logger.info('RECON %s %s', statement_line, statement_line.name)
+        _logger.info('ARM RECON %s %s', statement_line, statement_line.name)
         if not statement_line.name:
             return
 
-        arms = self.env['account.reconcile.model'].search([('journal_id', '=', statement_line.journal_id.id), ('company_id', '=', statement_line.company_id.id), ('match', '!=', False)])
+        arms = self.env['account.statement.operation.template'].search([('journal_id', '=', statement_line.journal_id.id), ('company_id', '=', statement_line.company_id.id), ('match', '!=', False)])
         _logger.info('ARMS: %s', arms)
         for arm in arms:
             _logger.info("Testing: %s", arm.name)
@@ -36,6 +36,6 @@ class AccountBankStatementImportAutoReconcileModel(models.AbstractModel):
                             'credit': amount > 0 and amount or 0,
                             'account_id': arm.account_id.id,
                             }]
-                _logger.info('NEW_AML: %s', new_aml)
-                statement_line.process_reconciliation(new_aml_dicts=new_aml)
+                _logger.info('NEW_AML: %s STM: %s', new_aml, statement_line._name)
+                statement_line.process_reconciliations([[statement_line.id, new_aml]])
                 return True 
