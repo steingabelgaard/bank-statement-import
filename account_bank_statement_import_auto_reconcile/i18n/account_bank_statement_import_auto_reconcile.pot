@@ -20,7 +20,7 @@ msgid " - Rejected"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:44
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:39
 #, python-format
 msgid "%d transactions were reconciled automatically."
 msgstr ""
@@ -37,6 +37,11 @@ msgid "Auto reconcile"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
+#: view:account.statement.operation.template:account_bank_statement_import_auto_reconcile.view_account_statement_operation_template_form
+msgid "Automatic match"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_rule
 msgid "Automatic reconciliation rule"
 msgstr ""
@@ -47,7 +52,7 @@ msgid "Automatic reconciliation rules"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:47
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:42
 #, python-format
 msgid "Automatically reconciled"
 msgstr ""
@@ -88,6 +93,7 @@ msgstr ""
 #: field:account.bank.statement.import.auto.reconcile,display_name:0
 #: field:account.bank.statement.import.auto.reconcile.bank.payment.line,display_name:0
 #: field:account.bank.statement.import.auto.reconcile.exact.amount,display_name:0
+#: field:account.bank.statement.import.auto.reconcile.fik.payment,display_name:0
 #: field:account.bank.statement.import.auto.reconcile.model,display_name:0
 #: field:account.bank.statement.import.auto.reconcile.odoo,display_name:0
 #: field:account.bank.statement.import.auto.reconcile.rule,display_name:0
@@ -98,6 +104,11 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_exact_amount
 msgid "Exact partner, amount and reference"
+msgstr ""
+
+#. module: account_bank_statement_import_auto_reconcile
+#: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_bank_statement_import_auto_reconcile_fik_payment
+msgid "FIK Indbetaling ID"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
@@ -119,6 +130,7 @@ msgstr ""
 #: field:account.bank.statement.import.auto.reconcile,id:0
 #: field:account.bank.statement.import.auto.reconcile.bank.payment.line,id:0
 #: field:account.bank.statement.import.auto.reconcile.exact.amount,id:0
+#: field:account.bank.statement.import.auto.reconcile.fik.payment,id:0
 #: field:account.bank.statement.import.auto.reconcile.model,id:0
 #: field:account.bank.statement.import.auto.reconcile.odoo,id:0
 #: field:account.bank.statement.import.auto.reconcile.rule,id:0
@@ -140,6 +152,7 @@ msgstr ""
 #. module: account_bank_statement_import_auto_reconcile
 #: field:account.bank.statement.import.auto.reconcile.rule,journal_id:0
 #: field:account.bank.statement.import.reapply.rules,journal_id:0
+#: field:account.statement.operation.template,journal_id:0
 #: model:ir.model,name:account_bank_statement_import_auto_reconcile.model_account_journal
 msgid "Journal"
 msgstr ""
@@ -148,6 +161,7 @@ msgstr ""
 #: field:account.bank.statement.import.auto.reconcile,__last_update:0
 #: field:account.bank.statement.import.auto.reconcile.bank.payment.line,__last_update:0
 #: field:account.bank.statement.import.auto.reconcile.exact.amount,__last_update:0
+#: field:account.bank.statement.import.auto.reconcile.fik.payment,__last_update:0
 #: field:account.bank.statement.import.auto.reconcile.model,__last_update:0
 #: field:account.bank.statement.import.auto.reconcile.odoo,__last_update:0
 #: field:account.bank.statement.import.auto.reconcile.rule,__last_update:0
@@ -186,6 +200,7 @@ msgstr ""
 #: field:account.bank.statement.import.auto.reconcile,options:0
 #: field:account.bank.statement.import.auto.reconcile.bank.payment.line,options:0
 #: field:account.bank.statement.import.auto.reconcile.exact.amount,options:0
+#: field:account.bank.statement.import.auto.reconcile.fik.payment,options:0
 #: field:account.bank.statement.import.auto.reconcile.model,options:0
 #: field:account.bank.statement.import.auto.reconcile.odoo,options:0
 #: field:account.bank.statement.import.auto.reconcile.rule,options:0
@@ -242,13 +257,14 @@ msgstr ""
 #: field:account.bank.statement.import.auto.reconcile,wizard_id:0
 #: field:account.bank.statement.import.auto.reconcile.bank.payment.line,wizard_id:0
 #: field:account.bank.statement.import.auto.reconcile.exact.amount,wizard_id:0
+#: field:account.bank.statement.import.auto.reconcile.fik.payment,wizard_id:0
 #: field:account.bank.statement.import.auto.reconcile.model,wizard_id:0
 #: field:account.bank.statement.import.auto.reconcile.odoo,wizard_id:0
 msgid "Wizard id"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_reapply_rules.py:21
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import_reapply_rules.py:23
 #, python-format
 msgid "You can only reapply rules on statements with the same journal!"
 msgstr ""
