@@ -26,5 +26,6 @@
         "views/account_journal.xml",
         "views/account_bank_statement_import_auto_reconcile_rule.xml",
         'security/ir.model.access.csv',
+        'views/account_reconcile_model.xml',
     ],
 }
