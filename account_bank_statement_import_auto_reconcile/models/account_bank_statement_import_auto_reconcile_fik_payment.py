@@ -20,11 +20,16 @@ class AccountBankStatementImportAutoReconcileFikPayment(models.AbstractModel):
     @api.multi
     def reconcile(self, statement_line):
         #_logger.info('RECON %s', statement_line)
-        
-        if not 'Indbet.ID=0' in statement_line.name:
+        fik_code = False
+        if not 'Indbet.ID=0' in statement_line.name or statement_line.name.startswith('00000000'):
             return
-
-        fik_code = statement_line.name.split('=')[1]
+        if 'Indbet.ID=0' in statement_line.name:
+            fik_code = statement_line.name.split('=')[1]
+        if statement_line.name.startswith('00000000') and statement_line.ref == '':
+            fik_code = statement_line.name.split(' ')[0]
+        if not fik_code:
+            return
+            
         invoice = self.env['account.invoice'].search([('id', '=', int(fik_code[:-1]))])
         
         if invoice and len(invoice) == 1:
