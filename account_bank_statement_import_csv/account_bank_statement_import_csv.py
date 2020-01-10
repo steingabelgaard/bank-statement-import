@@ -137,8 +137,23 @@ class AccountBankStatementImport(models.TransientModel):
                     d += 1
                 else:
                     d = 1
-                _logger.info('Procsessing line: %d', i)
+                _logger.info('XXProcsessing line: %d', i)
                 try:
+                    if line[date_field] in ['Afsender', 'Meddelelse', 'Kreditors identifikation af modtager']:
+                        # info line to be attached to previous line
+                        if transactions[-1]['note']:
+                            transactions[-1]['note'] = '%s\n%s: %s' % (transactions[-1]['note'], line[date_field], line[u'Valør'])
+                        else:
+                            transactions[-1]['note'] = '%s: %s' % (line[date_field], line[u'Valør'])
+                        continue
+                    if line[date_field] == '': 
+                        # info line to be attached to previous line
+                        if line[u'Valør'] is not None:
+                            if transactions[-1]['note']:
+                                transactions[-1]['note'] = '%s\n%s' % (transactions[-1]['note'], line[u'Valør'])
+                            else:
+                                transactions[-1]['note'] = '%s' % (line[u'Valør'])
+                        continue
                     partner = False
                     ref = False
                     txparts = line[text_field].split()
