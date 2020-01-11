@@ -25,13 +25,13 @@ msgid " - Rejected"
 msgstr ""
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:45
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:47
 #, python-format
 msgid "%d transactions were reconciled automatically."
 msgstr "%d transaktioner blev udlignet automatisk."
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:57
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:59
 #, fuzzy, python-format
 msgid "%d transactions were rejected."
 msgstr "%d transaktioner blev udlignet automatisk."
@@ -58,7 +58,7 @@ msgid "Automatic reconciliation rules"
 msgstr "Automatisk afstemmingsregler"
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:48
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:50
 #, python-format
 msgid "Automatically reconciled"
 msgstr "Automatisk afstemt"
@@ -225,7 +225,7 @@ msgid "Ref is Bank Payment Line Ref"
 msgstr "Ref er betalingsordrens linie reference"
 
 #. module: account_bank_statement_import_auto_reconcile
-#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:60
+#: code:addons/account_bank_statement_import_auto_reconcile/models/account_bank_statement_import.py:62
 #, python-format
 msgid "Rejected payments"
 msgstr ""
