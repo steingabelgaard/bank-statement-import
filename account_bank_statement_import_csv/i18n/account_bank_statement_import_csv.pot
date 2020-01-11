@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:203
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:222
 #, python-format
 msgid "%s/%s-%s"
 msgstr ""
@@ -25,14 +25,14 @@ msgid "CSV file. Supported fields: Dato, Bogført, Tekst, Beløb, Saldo"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:192
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:211
 #, python-format
 msgid "File parse error:\n"
 "%s"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:189
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:208
 #, python-format
 msgid "Format Error\n"
 "Line %d could not be processed\n"
@@ -40,7 +40,7 @@ msgid "Format Error\n"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:166
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:185
 #, python-format
 msgid "Identical imported items"
 msgstr ""
@@ -51,7 +51,7 @@ msgid "Import Bank Statement"
 msgstr ""
 
 #. module: account_bank_statement_import_csv
-#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:158
+#: code:addons/account_bank_statement_import_csv/account_bank_statement_import_csv.py:177
 #, python-format
 msgid "Line %d and %d are identical:\n"
 "%s %s %0.2f - Balance: %0.2f"
