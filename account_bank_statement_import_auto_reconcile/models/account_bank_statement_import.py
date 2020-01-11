@@ -38,6 +38,8 @@ class AccountBankStatementImport(models.TransientModel):
                 if rule.reconcile(line):
                     auto_reconciled_ids.append(line.id)
                     break
+            # commit line by line to avoid concurrent update error on long running import
+            self._cr.commit()
         if auto_reconciled_ids:
             notifications.append({
                 'type': 'warning',
