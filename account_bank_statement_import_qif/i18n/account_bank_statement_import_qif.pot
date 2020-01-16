@@ -4,7 +4,7 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 10.0\n"
+"Project-Id-Version: Odoo Server 8.0\n"
 "Report-Msgid-Bugs-To: \n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
@@ -14,7 +14,7 @@ msgstr ""
 "Plural-Forms: \n"
 
 #. module: account_bank_statement_import_qif
-#: code:addons/account_bank_statement_import_qif/wizards/account_bank_statement_import_qif.py:58
+#: code:addons/account_bank_statement_import_qif/account_bank_statement_import_qif.py:39
 #, python-format
 msgid "Could not decipher the QIF file."
 msgstr ""
@@ -25,12 +25,7 @@ msgid "Import Bank Statement"
 msgstr ""
 
 #. module: account_bank_statement_import_qif
-#: model:ir.ui.view,arch_db:account_bank_statement_import_qif.account_bank_statement_import_view
-msgid "Quicken Interchange Format (.qif)"
-msgstr ""
-
-#. module: account_bank_statement_import_qif
-#: code:addons/account_bank_statement_import_qif/wizards/account_bank_statement_import_qif.py:92
+#: code:addons/account_bank_statement_import_qif/account_bank_statement_import_qif.py:83
 #, python-format
 msgid "This file is either not a bank statement or is not correctly formed."
 msgstr ""
