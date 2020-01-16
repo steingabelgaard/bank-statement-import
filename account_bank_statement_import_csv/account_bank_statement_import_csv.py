@@ -198,6 +198,7 @@ class AccountBankStatementImport(models.TransientModel):
                         'ref' : ref,
                         'partner_id': partner[0].id if partner else False,
                         }
+                    unique_ids[unique_import_id] = i
                     end_date_str = line[date_field].strip()
                     end_balance = self._csv_convert_amount(line[u'Saldo'])
                     end_amount = self._csv_convert_amount(line[u'Beløb'])
