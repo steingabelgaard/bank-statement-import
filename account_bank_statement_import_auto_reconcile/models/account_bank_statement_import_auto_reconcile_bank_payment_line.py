@@ -68,6 +68,11 @@ class AccountBankStatementImportAutoReconcileBankPaymentLine(models.AbstractMode
             else:
                 amount = aml.currency_id and aml.amount_residual_currency or aml.amount_residual
                 if amount > 0:
+                    if not (float_compare(
+                            statement_line.amount, amount,
+                            precision_digits=self._digits
+                            ) == 0):
+                        return  # Open amount dosn't match paided amount
                     counterpart_aml_dicts.append({
                         'name': aml.name if aml.name != '/' else aml.move_id.name,
                         'debit': amount < 0 and -amount or 0,
