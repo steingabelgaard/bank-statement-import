@@ -454,7 +454,7 @@ class AccountBankStatementImport(models.TransientModel):
                 if 'details' in notification and 'unique_ids' in notification['details']:
                     notification['details']['ids'] = bsl_model.search(
                             [('unique_import_id', 'in', notification['details']['unique_ids'])]).ids
-                    del notification['unique_ids']
+                    del notification['details']['unique_ids']
                 
         num_ignored = len(ignored_line_ids)
         if num_ignored > 0:
