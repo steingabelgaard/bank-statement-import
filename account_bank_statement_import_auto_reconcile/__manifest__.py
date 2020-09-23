@@ -11,7 +11,7 @@
     "reconciliation rules to be run after a bank statement is imported",
     "depends": [
         'account_bank_statement_import',
-        'base_sparse_field',
+        #'base_sparse_field',
         #'web_widget_one2many_tags',
         #'base_domain_operator',
     ],
